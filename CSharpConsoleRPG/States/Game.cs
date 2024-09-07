@@ -23,21 +23,21 @@ namespace CSharpConsoleRPG.States
         // Destructor (Not necessary in C#, handled by garbage collection)
         //~Game() { }
 
+        // Accessors
+        // Property to access the playing status
+        public bool Playing
+        {
+            get { return playing; }
+            private set { playing = value; }
+        }
+
         // Functions
         public void InitGame()
         {
             Console.Write("Enter name of character: ");
-            string? name = Console.ReadLine();  // ReadLine() can return null
+            string? name = Console.ReadLine();
 
-            // Check if name is null or empty and handle it
-            if (string.IsNullOrEmpty(name))
-            {
-                Console.WriteLine("Invalid input. Name cannot be empty.");
-                // You can handle this by either retrying or setting a default name
-                name = "Arin";  // Assign a default name if needed
-            }
-
-            character.Initialize(name);  // Safe to pass since name won't be null
+            character.Initialize(name); // Assuming `Initialize` method exists in `Character`
         }
 
 
@@ -45,14 +45,17 @@ namespace CSharpConsoleRPG.States
         public void MainMenu()
         {
             Console.WriteLine("= Main Menu =\n");
+
             Console.WriteLine("0: Quit");
             Console.WriteLine("1: Travel");
             Console.WriteLine("2: Shop");
             Console.WriteLine("3: Level up");
             Console.WriteLine("4: Rest");
-            Console.WriteLine("5: Character sheet\n");
+            Console.WriteLine("5: Character sheet");
+            Console.WriteLine();
 
-            Console.Write("Choice: ");
+            Console.Write("\nChoice: ");
+
             if (int.TryParse(Console.ReadLine(), out choice))
             {
                 Console.WriteLine();
@@ -84,7 +87,7 @@ namespace CSharpConsoleRPG.States
                         break;
 
                     case 5:
-                        character.PrintStats();
+                        character.PrintStats(); // Assuming `PrintStats` method exists in `Character`
                         break;
 
                     default:
@@ -96,12 +99,8 @@ namespace CSharpConsoleRPG.States
             {
                 Console.WriteLine("Invalid input, please enter a number.");
             }
-        }
 
-        // Accessors
-        public bool GetPlaying()
-        {
-            return playing;
+            Console.WriteLine();
         }
     }
 }
