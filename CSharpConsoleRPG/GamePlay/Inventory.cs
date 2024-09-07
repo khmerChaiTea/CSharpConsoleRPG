@@ -5,50 +5,61 @@ namespace CSharpConsoleRPG.GamePlay
 {
     public class Inventory
     {
-        private int cap;
-        private int nrOfItems;
-        private List<Item> itemList;
+        private int capacity;
+        private int numberOfItems;
+        private List<Item> itemArr;
 
         // Constructor
         public Inventory()
         {
-            cap = 10;
-            nrOfItems = 0;
-            itemList = new List<Item>(cap);
+            this.capacity = 10;
+            this.numberOfItems = 0;
+            this.itemArr = new List<Item>(this.capacity);
         }
+
+        // Destructor (not needed in C# since it's handled by garbage collection)
 
         // Functions
+        // Method to expand inventory capacity (in C#, List automatically handles resizing, so this is not strictly needed)
         private void Expand()
         {
-            cap *= 2;
-            // List automatically handles resizing, so no manual copying is required
+            this.capacity *= 2;
+            // In C#, List automatically expands, so no need to handle resizing manually.
         }
 
+        // Method to add an item to the inventory
         public void AddItem(Item item)
         {
-            if (nrOfItems >= cap)
+            if (this.numberOfItems >= this.capacity)
             {
                 Expand();
             }
 
-            itemList.Add(item.Clone()); // Assumes Item class has a copy constructor
-            nrOfItems++;
+            // Clone the item (assuming Clone is implemented in derived classes of Item)
+            this.itemArr.Add(item.Clone());
+            this.numberOfItems++;
         }
 
+        // Method to remove an item from the inventory
         public void RemoveItem(int index)
         {
-            if (index >= 0 && index < nrOfItems)
+            if (index >= 0 && index < this.numberOfItems)
             {
-                itemList.RemoveAt(index);
-                nrOfItems--;
+                itemArr.RemoveAt(index);
+                this.numberOfItems--;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Index out of range.");
             }
         }
 
+        // Debug print method to print the inventory contents
         public void DebugPrint()
         {
-            foreach (var item in itemList)
+            foreach (var item in itemArr)
             {
-                Console.WriteLine(item.DebugPrint()); // Assumes Item class has DebugPrint method
+                Console.WriteLine(item.DebugPrint());
             }
         }
     }

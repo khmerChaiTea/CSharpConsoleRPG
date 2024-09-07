@@ -41,6 +41,8 @@ namespace CSharpConsoleRPG.States
         public void InitGame()
         {
             CreateNewCharacter();
+            Weapon w1 = new Weapon(2, 5, "ddk", 1, 100, 100, 1);
+            Console.WriteLine(w1.ToString());
         }
 
         // Main Menu Function
@@ -54,11 +56,11 @@ namespace CSharpConsoleRPG.States
             Console.WriteLine("4: Rest");
             Console.WriteLine("5: Character sheet");
             Console.WriteLine("6: Create new character");
-            Console.WriteLine("5: Save characters");
+            Console.WriteLine("7: Save characters");
             Console.WriteLine("8: Load characters");
             Console.WriteLine();
 
-            Console.WriteLine("Choice: ");
+            Console.Write("Choice: ");
 
             if (int.TryParse(Console.ReadLine(), out choice))
             {
@@ -96,14 +98,17 @@ namespace CSharpConsoleRPG.States
                     case 6:
                         CreateNewCharacter();
                         SaveCharacter();
+                        Console.WriteLine("Character created.");
                         break;
 
                     case 7:
                         SaveCharacter();
+                        Console.WriteLine("Character saved.");
                         break;
 
                     case 8:
                         LoadCharacter();
+                        Console.WriteLine("Character loaded.");
                         break;
 
                     default:

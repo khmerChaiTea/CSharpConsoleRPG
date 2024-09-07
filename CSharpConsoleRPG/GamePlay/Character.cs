@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace CSharpConsoleRPG.GamePlay
 {
@@ -8,6 +7,10 @@ namespace CSharpConsoleRPG.GamePlay
         // Private fields
         private double xPos;
         private double yPos;
+
+        private Inventory inventory;
+        private Weapon weapon;
+        private Armor armor;
 
         private string name;
         private int level;
@@ -36,6 +39,10 @@ namespace CSharpConsoleRPG.GamePlay
         {
             xPos = 0.0;
             yPos = 0.0;
+
+            inventory = new Inventory(); // Initialize here
+            weapon = new Weapon();       // Initialize if needed
+            armor = new Armor();         // Initialize if needed
 
             name = "";
             level = 0;
@@ -122,24 +129,10 @@ namespace CSharpConsoleRPG.GamePlay
             }
         }
 
+        // Get character stats as string
         public string GetAsString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"{this.xPos} ");
-            sb.Append($"{this.yPos} ");
-            sb.Append($"{this.name} ");
-            sb.Append($"{this.level} ");
-            sb.Append($"{this.exp} ");
-            sb.Append($"{this.strength} ");
-            sb.Append($"{this.vitality} ");
-            sb.Append($"{this.dexterity} ");
-            sb.Append($"{this.intelligence} ");
-            sb.Append($"{this.hp} ");
-            sb.Append($"{this.stamina} ");
-            sb.Append($"{this.statPoints} ");
-            sb.Append($"{this.skillPoints}");
-
-            return sb.ToString();
+            return $"{xPos} {yPos} {name} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
         }
 
         // Properties
