@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace CSharpConsoleRPG.GamePlay
 {
@@ -59,6 +60,8 @@ namespace CSharpConsoleRPG.GamePlay
             skillPoints = 0;
         }
 
+        // Destructor is unnecessary in C# due to garbage collection
+
         // Functions
         public void Initialize(string name)
         {
@@ -90,51 +93,70 @@ namespace CSharpConsoleRPG.GamePlay
 
         public void PrintStats()
         {
-            Console.WriteLine("= Character Sheet =");
-            Console.WriteLine();
-            Console.WriteLine($"= Name: {name}");
-            Console.WriteLine($"= Level: {level}");
-            Console.WriteLine($"= Exp: {exp}");
-            Console.WriteLine($"= Exp to next level: {expNext}");
-            Console.WriteLine();
-            Console.WriteLine($"= Strength: {strength}");
-            Console.WriteLine($"= Vitality: {vitality}");
-            Console.WriteLine($"= Dexterity: {dexterity}");
-            Console.WriteLine($"= Intelligence: {intelligence}");
-            Console.WriteLine();
-            Console.WriteLine($"= HP: {hp} / {hpMax}");
-            Console.WriteLine($"= Stamina: {stamina} / {staminaMax}");
-            Console.WriteLine($"= Damage: {damageMin} - {damageMax}");
-            Console.WriteLine($"= Defence: {defence}");
-            Console.WriteLine($"= Luck: {luck}");
-            Console.WriteLine();
+            Console.WriteLine("= Character Sheet =\n");
+            Console.WriteLine($"= Name: {this.name}");
+            Console.WriteLine($"= Level: {this.level}");
+            Console.WriteLine($"= Exp: {this.exp}");
+            Console.WriteLine($"= Exp to next level: {this.expNext}\n");
+            Console.WriteLine($"= Strength: {this.strength}");
+            Console.WriteLine($"= Vitality: {this.vitality}");
+            Console.WriteLine($"= Dexterity: {this.dexterity}");
+            Console.WriteLine($"= Intelligence: {this.intelligence}\n");
+            Console.WriteLine($"= HP: {this.hp} / {this.hpMax}");
+            Console.WriteLine($"= Stamina: {this.stamina} / {this.staminaMax}");
+            Console.WriteLine($"= Damage: {this.damageMin} - {this.damageMax}");
+            Console.WriteLine($"= Defence: {this.defence}");
+            Console.WriteLine($"= Luck: {this.luck}\n");
         }
 
         public void LevelUp()
         {
-            while (exp >= expNext)
+            while (this.exp >= this.expNext)
             {
-                exp -= expNext;
-                level++;
-                expNext = (int)((50.0 / 3.0) * (Math.Pow(level, 3) - 6 * Math.Pow(level, 2) + 17 * level - 12)) + 100;
+                this.exp -= this.expNext;
+                this.level++;
+                this.expNext = (int)((50.0 / 3.0) * (Math.Pow(level, 3) - 6 * Math.Pow(level, 2) + 17 * level - 12)) + 100;
 
-                statPoints++;
-                skillPoints++;
+                this.statPoints++;
+                this.skillPoints++;
             }
         }
 
+        public string GetAsString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{this.xPos} ");
+            sb.Append($"{this.yPos} ");
+            sb.Append($"{this.name} ");
+            sb.Append($"{this.level} ");
+            sb.Append($"{this.exp} ");
+            sb.Append($"{this.strength} ");
+            sb.Append($"{this.vitality} ");
+            sb.Append($"{this.dexterity} ");
+            sb.Append($"{this.intelligence} ");
+            sb.Append($"{this.hp} ");
+            sb.Append($"{this.stamina} ");
+            sb.Append($"{this.statPoints} ");
+            sb.Append($"{this.skillPoints}");
+
+            return sb.ToString();
+        }
+
         // Properties
-        public double X { get { return xPos; } }
-        public double Y { get { return yPos; } }
-        public string Name { get { return name; } }
-        public int Level { get { return level; } }
-        public int Exp { get { return exp; } }
-        public int ExpNext { get { return expNext; } }
-        public int Hp { get { return hp; } }
-        public int HpMax { get { return hpMax; } }
-        public int Stamina { get { return stamina; } }
-        public int DamageMin { get { return damageMin; } }
-        public int DamageMax { get { return damageMax; } }
-        public int Defence { get { return defence; } }
+        // Accessors
+        public double GetX() => this.xPos;
+        public double GetY() => this.yPos;
+        public string GetName() => this.name;
+        public int GetLevel() => this.level;
+        public int GetExp() => this.exp;
+        public int GetExpNext() => this.expNext;
+        public int GetHp() => this.hp;
+        public int GetHpMax() => this.hpMax;
+        public int GetStamina() => this.stamina;
+        public int GetDamageMin() => this.damageMin;
+        public int GetDamageMax() => this.damageMax;
+        public int GetDefence() => this.defence;
+
+        // Modifier (if needed)
     }
 }

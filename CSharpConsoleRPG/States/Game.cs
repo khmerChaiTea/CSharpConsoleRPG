@@ -1,5 +1,7 @@
 ﻿using System;
 using CSharpConsoleRPG.GamePlay;
+using System.Collections.Generic;
+using System.IO;
 
 namespace CSharpConsoleRPG.States
 {
@@ -10,14 +12,18 @@ namespace CSharpConsoleRPG.States
         private bool playing;
 
         // Character related
-        private Character character;
+        private int activeCharacter;
+        private List<Character> characters;
+        private string fileName;
 
         // Constructor
         public Game()
         {
             choice = 0;
             playing = true;
-            character = new Character(); // Ensure the Character instance is created
+            activeCharacter = 0;
+            fileName = "characters.txt";
+            characters = new List<Character>();
         }
 
         // Destructor (Not necessary in C#, handled by garbage collection)
@@ -34,27 +40,25 @@ namespace CSharpConsoleRPG.States
         // Functions
         public void InitGame()
         {
-            Console.Write("Enter name of character: ");
-            string? name = Console.ReadLine();
-
-            character.Initialize(name); // Assuming `Initialize` method exists in `Character`
+            CreateNewCharacter();
         }
-
 
         // Main Menu Function
         public void MainMenu()
         {
             Console.WriteLine("= Main Menu =\n");
-
             Console.WriteLine("0: Quit");
             Console.WriteLine("1: Travel");
             Console.WriteLine("2: Shop");
             Console.WriteLine("3: Level up");
             Console.WriteLine("4: Rest");
             Console.WriteLine("5: Character sheet");
+            Console.WriteLine("6: Create new character");
+            Console.WriteLine("5: Save characters");
+            Console.WriteLine("8: Load characters");
             Console.WriteLine();
 
-            Console.Write("\nChoice: ");
+            Console.WriteLine("Choice: ");
 
             if (int.TryParse(Console.ReadLine(), out choice))
             {
@@ -77,7 +81,6 @@ namespace CSharpConsoleRPG.States
 
                     case 3:
                         // Level up logic goes here
-                        character.LevelUp();
                         Console.WriteLine("Leveled up!");
                         break;
 
@@ -87,7 +90,20 @@ namespace CSharpConsoleRPG.States
                         break;
 
                     case 5:
-                        character.PrintStats(); // Assuming `PrintStats` method exists in `Character`
+                        characters[activeCharacter].PrintStats();
+                        break;
+
+                    case 6:
+                        CreateNewCharacter();
+                        SaveCharacter();
+                        break;
+
+                    case 7:
+                        SaveCharacter();
+                        break;
+
+                    case 8:
+                        LoadCharacter();
                         break;
 
                     default:
@@ -99,8 +115,39 @@ namespace CSharpConsoleRPG.States
             {
                 Console.WriteLine("Invalid input, please enter a number.");
             }
+        }
 
-            Console.WriteLine();
+        public void CreateNewCharacter()
+        {
+            Console.Write("Character name: ");
+            string? name = Console.ReadLine();
+
+            // Ensure the name is not null or empty
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Invalid input. Name cannot be empty.");
+                return; // Exit the method if the name is invalid
+            }
+
+            characters.Add(new Character());
+            activeCharacter = characters.Count - 1;
+            characters[activeCharacter].Initialize(name);
+        }
+
+        public void SaveCharacter()
+        {
+            using (StreamWriter outFile = new StreamWriter(fileName))
+            {
+                foreach (Character character in characters)
+                {
+                    outFile.WriteLine(character.GetAsString());
+                }
+            }
+        }
+
+        public void LoadCharacter()
+        {
+            // Load character logic here
         }
     }
 }
