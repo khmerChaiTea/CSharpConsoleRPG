@@ -40,9 +40,21 @@ namespace CSharpConsoleRPG.States
         // Functions
         public void InitGame()
         {
+            Inventory inv = new Inventory(); // Initialize the inv object
+
+            inv.AddItem(new Weapon(0, 0, "Wep1")); // Use 'new' to create the Weapon object
+            inv.AddItem(new Weapon(0, 0, "Wep2"));
+            inv.AddItem(new Weapon(0, 0, "Wep3"));
+            inv.AddItem(new Armor(0, 0, "Arm1"));
+            inv.AddItem(new Armor(0, 0, "Arm2"));
+            inv.AddItem(new Armor(0, 0, "Arm3"));
+
+            for (int i = 0; i < inv.Size; i++) // Size is in Inventory
+            {
+                Console.WriteLine(inv[i].DebugPrint());
+            }
+
             CreateNewCharacter();
-            Weapon w1 = new Weapon(2, 5, "ddk", 1, 100, 100, 1);
-            Console.WriteLine(w1.ToString());
         }
 
         // Main Menu Function

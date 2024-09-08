@@ -10,7 +10,10 @@ namespace CSharpConsoleRPG.GamePlay
 
         private Inventory inventory;
         private Weapon weapon;
-        private Armor armor;
+        private Armor armor_head;
+        private Armor armor_chest;
+        private Armor armor_arms;
+        private Armor armor_legs;
 
         private string name;
         private int level;
@@ -42,7 +45,10 @@ namespace CSharpConsoleRPG.GamePlay
 
             inventory = new Inventory(); // Initialize here
             weapon = new Weapon();       // Initialize if needed
-            armor = new Armor();         // Initialize if needed
+            armor_head = new Armor();    // Initialize if needed
+            armor_chest = new Armor();    // Initialize if needed
+            armor_arms = new Armor();    // Initialize if needed
+            armor_legs = new Armor();    // Initialize if needed
 
             name = "";
             level = 0;

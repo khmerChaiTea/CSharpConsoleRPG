@@ -5,59 +5,83 @@ namespace CSharpConsoleRPG.GamePlay
 {
     public class Inventory
     {
-        private int capacity;
-        private int numberOfItems;
+        private int cap;
+        private int nrOfItems;
         private List<Item> itemArr;
 
         // Constructor
         public Inventory()
         {
-            this.capacity = 10;
-            this.numberOfItems = 0;
-            this.itemArr = new List<Item>(this.capacity);
+            this.cap = 5;
+            this.nrOfItems = 0;
+            this.itemArr = new List<Item>(this.cap);
         }
 
         // Destructor (not needed in C# since it's handled by garbage collection)
+
+        // Copy Constructor in C#
+        public Inventory(Inventory other)
+        {
+            this.cap = other.cap;
+            this.nrOfItems = other.nrOfItems;
+            this.itemArr = new List<Item>(this.cap);
+
+            for (int i = 0; i < other.nrOfItems; i++)
+            {
+                this.itemArr.Add(other.itemArr[i].Clone());
+            }
+        }
+
+        public int Size => this.nrOfItems;
+
+        public Item this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= this.nrOfItems)
+                {
+                    throw new IndexOutOfRangeException("BAD INDEX!");
+                }
+                return this.itemArr[index];
+            }
+        }
 
         // Functions
         // Method to expand inventory capacity (in C#, List automatically handles resizing, so this is not strictly needed)
         private void Expand()
         {
-            this.capacity *= 2;
-            // In C#, List automatically expands, so no need to handle resizing manually.
+            this.cap *= 2;
+            // No need to manually resize the array, as List<T> handles resizing internally.
         }
 
         // Method to add an item to the inventory
         public void AddItem(Item item)
         {
-            if (this.numberOfItems >= this.capacity)
+            if (this.nrOfItems >= this.cap)
             {
                 Expand();
             }
 
-            // Clone the item (assuming Clone is implemented in derived classes of Item)
             this.itemArr.Add(item.Clone());
-            this.numberOfItems++;
+            this.nrOfItems++;
         }
 
         // Method to remove an item from the inventory
         public void RemoveItem(int index)
         {
-            if (index >= 0 && index < this.numberOfItems)
+            if (index < 0 || index >= this.nrOfItems)
             {
-                itemArr.RemoveAt(index);
-                this.numberOfItems--;
+                throw new IndexOutOfRangeException("BAD INDEX!");
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Index out of range.");
-            }
+
+            this.itemArr.RemoveAt(index);
+            this.nrOfItems--;
         }
 
         // Debug print method to print the inventory contents
         public void DebugPrint()
         {
-            foreach (var item in itemArr)
+            foreach (var item in this.itemArr)
             {
                 Console.WriteLine(item.DebugPrint());
             }
