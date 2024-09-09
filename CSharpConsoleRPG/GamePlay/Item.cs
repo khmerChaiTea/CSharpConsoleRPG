@@ -21,9 +21,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.rarity = rarity;
         }
 
-        // Destructor (not needed in C# due to garbage collection)
-        // No need to define a destructor unless handling unmanaged resources
-
         // Methods
         public string DebugPrint()
         {

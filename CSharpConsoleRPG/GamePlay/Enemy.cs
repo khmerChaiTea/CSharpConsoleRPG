@@ -25,11 +25,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.accuracy = new Random().Next(0, 100);
         }
 
-        ~Enemy()
-        {
-            // Destructor logic (not commonly used in C#, typically handled by garbage collection)
-        }
-
         public bool IsAlive()
         {
             return this.hp > 0;

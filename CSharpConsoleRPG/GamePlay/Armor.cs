@@ -15,8 +15,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.defense = defence;
         }
 
-        // Destructor (not needed in C#)
-
         // Clone method (deep copy)
         public override Armor Clone()
         {

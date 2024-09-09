@@ -40,10 +40,17 @@ namespace CSharpConsoleRPG.States
         // Functions
         public void InitGame()
         {
-            Random rand = new Random();
-            Enemy e = new Enemy(rand.Next(1, 11)); // Generates a random level between 1 and 10
-            Console.WriteLine(e.GetAsString());    // Outputs the Enemy's details
             CreateNewCharacter();
+
+            try
+            {
+                Puzzle p = new Puzzle("lel.txt");
+                Console.WriteLine(p.GetAsString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         // Main Menu Function
@@ -165,7 +172,10 @@ namespace CSharpConsoleRPG.States
 
         public void Travel()
         {
-            // Load Travel here
+            characters[activeCharacter].Travel();
+
+            Event ev = new Event();
+            ev.GenerateEvent(this.characters[activeCharacter]);
         }
     }
 }

@@ -8,12 +8,15 @@ namespace CSharpConsoleRPG.GamePlay
         private double xPos;
         private double yPos;
 
+        private int distanceTraveled;
+
         private Inventory inventory;
         private Weapon weapon;
         private Armor armorHead;
         private Armor armorChest;
         private Armor armorArms;
         private Armor armorLegs;
+        private int gold;
 
         private string name;
         private int level;
@@ -43,8 +46,11 @@ namespace CSharpConsoleRPG.GamePlay
         {
             this.xPos = 0.0;
             this.yPos = 0.0;
+            this.distanceTraveled = 0;
 
-            this.name = "";
+            this.gold = 0;
+
+            this.name = string.Empty;
             this.level = 0;
             this.exp = 0;
             this.expNext = 0;
@@ -68,13 +74,14 @@ namespace CSharpConsoleRPG.GamePlay
             this.skillPoints = 0;
         }
 
-        // Destructor is unnecessary in C# due to garbage collection
-
         // Functions
         public void Initialize(string name)
         {
             this.xPos = 0.0;
             this.yPos = 0.0;
+            this.distanceTraveled = 0;
+
+            this.gold = 100;
 
             this.name = name;
             this.level = 1;
@@ -145,6 +152,7 @@ namespace CSharpConsoleRPG.GamePlay
         // Accessors
         public double X => this.xPos;
         public double Y => this.yPos;
+        public int DistanceTraveled => this.distanceTraveled;
         public string Name => this.name;
         public int Level => this.level;
         public int Exp => this.exp;
@@ -158,5 +166,13 @@ namespace CSharpConsoleRPG.GamePlay
         public int Accuracy => this.accuracy;
 
         // Modifier (if needed)
+        public void SetDistanceTraveled(int distance)
+        {
+            this.distanceTraveled = distance;
+        }
+        public void Travel()
+        {
+            this.distanceTraveled++;
+        }
     }
 }

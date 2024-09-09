@@ -17,8 +17,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.itemArr = new List<Item>(this.cap);
         }
 
-        // Destructor (not needed in C# since it's handled by garbage collection)
-
         // Copy Constructor in C#
         public Inventory(Inventory other)
         {

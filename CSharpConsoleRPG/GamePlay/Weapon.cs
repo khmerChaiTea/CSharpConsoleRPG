@@ -15,9 +15,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.damageMax = damageMax;
         }
 
-        // Destructor (not needed in C#)
-        ~Weapon() { }
-
         // Clone method (deep copy)
         public override Weapon Clone()
         {
