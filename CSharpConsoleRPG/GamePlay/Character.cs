@@ -86,7 +86,7 @@ namespace CSharpConsoleRPG.GamePlay
             this.name = name;
             this.level = 1;
             this.exp = 0;
-            this.expNext = (int)((50 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
+            this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
 
             this.strength = 5;
             this.vitality = 5;
@@ -131,14 +131,20 @@ namespace CSharpConsoleRPG.GamePlay
 
         public void LevelUp()
         {
-            while (this.exp >= this.expNext)
+            if (this.exp >= this.expNext)
             {
                 this.exp -= this.expNext;
                 this.level++;
-                this.expNext = (int)((50 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
+                this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
 
                 this.statPoints++;
                 this.skillPoints++;
+
+                Console.WriteLine($"YOU ARE NOW LEVEL {this.level}!\n");
+            }
+            else
+            {
+                Console.WriteLine("NOT ENOUGH EXP!\n");
             }
         }
 
@@ -174,5 +180,11 @@ namespace CSharpConsoleRPG.GamePlay
         {
             this.distanceTraveled++;
         }
+
+        public void GainExp(int exp)
+        {
+            this.exp += exp;
+        }
+
     }
 }

@@ -51,9 +51,6 @@ namespace CSharpConsoleRPG.GamePlay
         }
 
         // Property to get the correct answer
-        public int CorrectAnswer
-        {
-            get { return this.correctAnswer; }
-        }
+        public int CorrectAnswer => this.correctAnswer;
     }
 }

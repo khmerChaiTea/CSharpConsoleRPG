@@ -48,16 +48,20 @@ namespace CSharpConsoleRPG.GamePlay
             bool completed = false;
             int userAns = 0;
             int chances = 3;
+            Random random = new Random();
+            int gainExp = chances * character.Level * random.Next(1, 11);
 
             // Load a puzzle from file
             Puzzle puzzle = new Puzzle("Puzzles/1.txt");
 
             while (!completed && chances > 0)
             {
+                Console.WriteLine($"Chances: {chances} \n");
                 chances--;
+
                 Console.WriteLine(puzzle.GetAsString());
 
-                Console.WriteLine("\nYour Answer: ");
+                Console.WriteLine("Your Answer: ");
                 bool isValidInput = int.TryParse(Console.ReadLine(), out userAns);
 
                 if (!isValidInput || userAns > 2 || userAns < 0)
@@ -69,7 +73,10 @@ namespace CSharpConsoleRPG.GamePlay
                 if (puzzle.CorrectAnswer == userAns)
                 {
                     completed = true;
+
                     // Give user experience points or rewards
+                    character.GainExp(gainExp);
+                    Console.WriteLine($"YOU GAIN {gainExp} EXP!\n");
                 }
                 else
                 {
@@ -79,11 +86,11 @@ namespace CSharpConsoleRPG.GamePlay
 
             if (completed)
             {
-                Console.WriteLine("Congrats! Puzzle is solved!");
+                Console.WriteLine("Congrats! Puzzle is solved!\n");
             }
             else
             {
-                Console.WriteLine("Failed!");
+                Console.WriteLine("Failed!\n");
             }
         }
     }

@@ -45,6 +45,11 @@ namespace CSharpConsoleRPG.States
         // Main Menu Function
         public void MainMenu()
         {
+            if (this.characters[activeCharacter].Exp >= this.characters[activeCharacter].ExpNext)
+            {
+                Console.WriteLine("LEVEL UP AVAILABLE!\n");
+            }
+
             Console.WriteLine("= Main Menu =\n");
             Console.WriteLine("0: Quit");
             Console.WriteLine("1: Travel");
@@ -61,7 +66,7 @@ namespace CSharpConsoleRPG.States
 
             if (!isValidInput)
             {
-                Console.WriteLine("Invalid input. Please enter a valid number.");
+                Console.WriteLine("Invalid input. Please choose from the following choices.\n");
                 return;
             }
 
@@ -80,7 +85,7 @@ namespace CSharpConsoleRPG.States
                     break;
 
                 case 3: // Level Up
-                        // Level up logic
+                    this.characters[activeCharacter].LevelUp();
                     break;
 
                 case 4: // Rest
@@ -105,7 +110,7 @@ namespace CSharpConsoleRPG.States
                     break;
 
                 default:
-                    Console.WriteLine("Invalid choice.");
+                    Console.WriteLine("Invalid input. Please choose from the following choices.\n");
                     break;
             }
         }
