@@ -1,59 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace CSharpConsoleRPG.GamePlay
 {
     public class Puzzle
     {
-        public string Question { get; private set; }
-        public List<string> Answers { get; private set; }
-        public int CorrectAnswer { get; private set; }
+        private string question;
+        private List<string> answers;
+        private int correctAnswer;
 
-        // Constructor
+        // Constructor to load a puzzle from a file
         public Puzzle(string fileName)
         {
-            Answers = new List<string>();
-            CorrectAnswer = 0;
+            this.correctAnswer = 0;
+            this.answers = new List<string>();
 
             try
             {
-                using (StreamReader reader = new StreamReader(fileName))
+                using (StreamReader inFile = new StreamReader(fileName))
                 {
-                    Question = reader.ReadLine();
-                    int nrOfAns = int.Parse(reader.ReadLine().Trim());
+                    this.question = inFile.ReadLine(); // Read question
+                    int nrOfAns = int.Parse(inFile.ReadLine()); // Read number of answers
 
                     for (int i = 0; i < nrOfAns; i++)
                     {
-                        Answers.Add(reader.ReadLine());
+                        this.answers.Add(inFile.ReadLine()); // Read each answer
                     }
 
-                    CorrectAnswer = int.Parse(reader.ReadLine().Trim());
+                    this.correctAnswer = int.Parse(inFile.ReadLine()); // Read correct answer
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Could not open puzzle!", ex);
+                throw new Exception("Could not open puzzle file!", ex);
             }
         }
 
+        // Method to get puzzle as string
         public string GetAsString()
         {
-            StringBuilder sb = new StringBuilder();
+            string answerList = "";
 
-            sb.AppendLine(Question);
-            sb.AppendLine();
-
-            for (int i = 0; i < Answers.Count; i++)
+            for (int i = 0; i < this.answers.Count; i++)
             {
-                sb.AppendLine($"{i}: {Answers[i]}");
+                answerList += $"{i}: {this.answers[i]}\n";
             }
 
-            sb.AppendLine();
-            sb.AppendLine(CorrectAnswer.ToString());
+            return $"{this.question}\n\n{answerList}\n";
+        }
 
-            return sb.ToString();
+        // Property to get the correct answer
+        public int CorrectAnswer
+        {
+            get { return this.correctAnswer; }
         }
     }
 }

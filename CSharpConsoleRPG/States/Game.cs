@@ -34,23 +34,12 @@ namespace CSharpConsoleRPG.States
         public bool Playing
         {
             get { return playing; }
-            private set { playing = value; }
         }
 
         // Functions
         public void InitGame()
         {
             CreateNewCharacter();
-
-            try
-            {
-                Puzzle p = new Puzzle("lel.txt");
-                Console.WriteLine(p.GetAsString());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
         }
 
         // Main Menu Function
@@ -65,75 +54,59 @@ namespace CSharpConsoleRPG.States
             Console.WriteLine("5: Character sheet");
             Console.WriteLine("6: Create new character");
             Console.WriteLine("7: Save characters");
-            Console.WriteLine("8: Load characters");
-            Console.WriteLine();
+            Console.WriteLine("8: Load characters\n");
 
             Console.Write("Choice: ");
+            bool isValidInput = int.TryParse(Console.ReadLine(), out choice);
 
-            if (int.TryParse(Console.ReadLine(), out choice))
+            if (!isValidInput)
             {
-                Console.WriteLine();
-                switch (choice)
-                {
-                    case 0:
-                        playing = false;
-                        break;
-
-                    case 1:
-                        // Travel logic goes here
-                        Console.WriteLine("Traveling...");
-                        break;
-
-                    case 2:
-                        // Shop logic goes here
-                        Console.WriteLine("Visiting the shop...");
-                        break;
-
-                    case 3:
-                        // Level up logic goes here
-                        Console.WriteLine("Leveled up!");
-                        break;
-
-                    case 4:
-                        // Rest logic goes here
-                        Console.WriteLine("Resting...");
-                        break;
-
-                    case 5:
-                        if (activeCharacter >= 0 && activeCharacter < characters.Count)
-                        {
-                            characters[activeCharacter].PrintStats();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid character selection.");
-                        }
-                        break;
-
-                    case 6:
-                        CreateNewCharacter();
-                        SaveCharacter();
-                        Console.WriteLine("Character created.");
-                        break;
-
-                    case 7:
-                        SaveCharacter();
-                        Console.WriteLine("Character saved.");
-                        break;
-
-                    case 8:
-                        LoadCharacter();
-                        Console.WriteLine("Character loaded.");
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid choice, please try again.");
-                        break;
-                }
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+                return;
             }
-            else
+
+            switch (choice)
             {
-                Console.WriteLine("Invalid input, please enter a number.");
+                case 0: // Quit
+                    playing = false;
+                    break;
+
+                case 1: // Travel
+                    Travel();
+                    break;
+
+                case 2: // Shop
+                        // Shop logic
+                    break;
+
+                case 3: // Level Up
+                        // Level up logic
+                    break;
+
+                case 4: // Rest
+                        // Rest logic
+                    break;
+
+                case 5: // Character sheet
+                    characters[activeCharacter].PrintStats();
+                    break;
+
+                case 6: // Create character
+                    CreateNewCharacter();
+                    SaveCharacter();
+                    break;
+
+                case 7: // Save character
+                    SaveCharacter();
+                    break;
+
+                case 8: // Load character
+                    LoadCharacter();
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
             }
         }
 
@@ -156,18 +129,27 @@ namespace CSharpConsoleRPG.States
 
         public void SaveCharacter()
         {
-            using (StreamWriter outFile = new StreamWriter(fileName))
+            try
             {
-                foreach (Character character in characters)
+                using (StreamWriter outFile = new StreamWriter(fileName))
                 {
-                    outFile.WriteLine(character.GetAsString());
+                    foreach (var character in characters)
+                    {
+                        outFile.WriteLine(character.GetAsString());
+                    }
                 }
+
+                Console.WriteLine("Character saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error saving characters: " + ex.Message);
             }
         }
 
         public void LoadCharacter()
         {
-            // Load character logic here
+            
         }
 
         public void Travel()
