@@ -154,6 +154,33 @@ namespace CSharpConsoleRPG.GamePlay
             Console.WriteLine();
         }
 
+        // Get character stats as string
+        public string GetAsString()
+        {
+            return $"{name} {distanceTraveled} {gold} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
+        }
+
+        public void LevelUp()
+        {
+            if (this.exp >= this.expNext)
+            {
+                this.exp -= this.expNext;
+                this.level++;
+                this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
+
+                this.statPoints++;
+                this.skillPoints++;
+
+                this.UpdateStats();
+
+                Console.WriteLine($"YOU ARE NOW LEVEL {this.level}!\n");
+            }
+            else
+            {
+                Console.WriteLine("NOT ENOUGH EXP!\n");
+            }
+        }
+
         public void UpdateStats()
         {
             this.expNext = (int)(
@@ -170,29 +197,39 @@ namespace CSharpConsoleRPG.GamePlay
             this.luck = this.intelligence;
         }
 
-        public void LevelUp()
+        public void AddToStat(int stat, int value)
         {
-            if (this.exp >= this.expNext)
+            if (this.statPoints < value)
             {
-                this.exp -= this.expNext;
-                this.level++;
-                this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
-
-                this.statPoints++;
-                this.skillPoints++;
-
-                Console.WriteLine($"YOU ARE NOW LEVEL {this.level}!\n");
+                Console.WriteLine("ERROR! NOT ENOUGH STATPOINTS!");
             }
             else
             {
-                Console.WriteLine("NOT ENOUGH EXP!\n");
-            }
-        }
+                switch (stat)
+                {
+                    case 0:
+                        this.strength += value;
+                        break;
 
-        // Get character stats as string
-        public string GetAsString()
-        {
-            return $"{name} {distanceTraveled} {gold} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
+                    case 1:
+                        this.vitality += value;
+                        break;
+
+                    case 2:
+                        this.dexterity += value;
+                        break;
+
+                    case 3:
+                        this.intelligence += value;
+                        break;
+
+                    default:
+                        Console.WriteLine("NO SUCH STAT!");
+                        break;
+                }
+
+                this.statPoints -= value;
+            }
         }
 
         // Properties
@@ -202,6 +239,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int Level => this.level;
         public int Exp => this.exp;
         public int ExpNext => this.expNext;
+        public int StatPoints => this.statPoints;
         public int Hp => this.hp;
         public int HpMax => this.hpMax;
         public int Stamina => this.stamina;

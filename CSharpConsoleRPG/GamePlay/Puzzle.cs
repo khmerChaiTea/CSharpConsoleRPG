@@ -47,7 +47,7 @@ namespace CSharpConsoleRPG.GamePlay
                 answerList += $"{i}: {this.answers[i]}\n";
             }
 
-            return $"{this.question}\n\n{answerList}\n";
+            return $"{this.question}\n\n{answerList}";
         }
 
         // Property to get the correct answer

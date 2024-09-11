@@ -61,11 +61,11 @@ namespace CSharpConsoleRPG.GamePlay
                 chances--;
                 Console.WriteLine(puzzle.GetAsString());
 
-                Console.Write("\nYour Answer: ");
+                Console.Write("Your Answer: ");
                 while (!int.TryParse(Console.ReadLine(), out userAns))
                 {
                     Console.WriteLine("Faulty input!");
-                    Console.Write("\nYour Answer: ");
+                    Console.Write("Your Answer: ");
                 }
 
                 if (puzzle.CorrectAnswer == userAns)

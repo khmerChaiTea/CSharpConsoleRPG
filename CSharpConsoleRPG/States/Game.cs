@@ -85,7 +85,7 @@ namespace CSharpConsoleRPG.States
                     break;
 
                 case 3: // Level Up
-                    this.characters[activeCharacter].LevelUp();
+                    LevelUpCharacter();
                     break;
 
                 case 4: // Rest
@@ -98,7 +98,6 @@ namespace CSharpConsoleRPG.States
 
                 case 6: // Create character
                     CreateNewCharacter();
-                    SaveCharacter();
                     break;
 
                 case 7: // Save character
@@ -124,6 +123,60 @@ namespace CSharpConsoleRPG.States
             newCharacter.Initialize(name);
             characters.Add(newCharacter);
             activeCharacter = characters.Count - 1;
+        }
+
+        public void LevelUpCharacter()
+        {
+            characters[activeCharacter].LevelUp();
+
+            if (characters[activeCharacter].StatPoints > 0)
+            {
+                Console.WriteLine("You have stat points to allocate!\n\n");
+                Console.WriteLine("Stat to upgrade:");
+                Console.WriteLine("0: Strength");
+                Console.WriteLine("1: Vitality");
+                Console.WriteLine("2: Dexterity");
+                Console.WriteLine("3: Intelligence");
+
+                // Input validation loop
+                bool validInput = false;
+                while (!validInput)
+                {
+                    Console.Write("Enter choice (0-3): ");
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out choice) && choice >= 0 && choice <= 3)
+                    {
+                        validInput = true; // Valid input, break out of loop
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input! Please enter a number between 0 and 3.");
+                    }
+                }
+
+                switch (choice)
+                {
+                    case 0: // Strength
+                        characters[activeCharacter].AddToStat(0, 1);
+                        break;
+
+                    case 1: // Vitality
+                        characters[activeCharacter].AddToStat(1, 1);
+                        break;
+
+                    case 2: // Dexterity
+                        characters[activeCharacter].AddToStat(2, 1);
+                        break;
+
+                    case 3: // Intelligence
+                        characters[activeCharacter].AddToStat(3, 1);
+                        break;
+
+                    default:
+                        // This should never happen since input is validated
+                        break;
+                }
+            }
         }
 
         public void SaveCharacter()
