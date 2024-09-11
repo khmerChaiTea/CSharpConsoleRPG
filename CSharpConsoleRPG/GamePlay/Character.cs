@@ -5,9 +5,6 @@ namespace CSharpConsoleRPG.GamePlay
     public class Character
     {
         // Private fields
-        private double xPos;
-        private double yPos;
-
         private int distanceTraveled;
 
         private Inventory inventory;
@@ -44,8 +41,6 @@ namespace CSharpConsoleRPG.GamePlay
         // Constructor
         public Character()
         {
-            this.xPos = 0.0;
-            this.yPos = 0.0;
             this.distanceTraveled = 0;
 
             this.gold = 0;
@@ -74,11 +69,41 @@ namespace CSharpConsoleRPG.GamePlay
             this.skillPoints = 0;
         }
 
+        public Character(string name, int distanceTraveled, int gold, int level, int exp, int strength,
+                     int vitality, int dexterity, int intelligence, int hp, int stamina,
+                     int statPoints, int skillPoints)
+        {
+            this.distanceTraveled = distanceTraveled;
+            this.gold = gold;
+            this.name = name;
+            this.level = level;
+            this.exp = exp;
+            this.expNext = 0;
+
+            this.strength = strength;
+            this.vitality = vitality;
+            this.dexterity = dexterity;
+            this.intelligence = intelligence;
+
+            this.hp = hp;
+            this.hpMax = 0;
+            this.stamina = stamina;
+            this.staminaMax = 0;
+            this.damageMin = 0;
+            this.damageMax = 0;
+            this.defense = 0;
+            this.accuracy = 0;
+            this.luck = 0;
+
+            this.statPoints = statPoints;
+            this.skillPoints = skillPoints;
+
+            this.UpdateStats();
+        }
+
         // Functions
         public void Initialize(string name)
         {
-            this.xPos = 0.0;
-            this.yPos = 0.0;
             this.distanceTraveled = 0;
 
             this.gold = 100;
@@ -129,6 +154,22 @@ namespace CSharpConsoleRPG.GamePlay
             Console.WriteLine();
         }
 
+        public void UpdateStats()
+        {
+            this.expNext = (int)(
+                (50.0 / 3) * ((Math.Pow(level, 3)
+                - 6 * Math.Pow(level, 2))
+                + 17 * level - 12)) + 100;
+
+            this.hpMax = (this.vitality * 2) + (this.strength / 2);
+            this.staminaMax = (this.vitality) + (this.strength / 2) + (this.dexterity / 3);
+            this.damageMin = this.strength;
+            this.damageMax = this.strength + 2;
+            this.defense = this.dexterity + (this.intelligence / 2);
+            this.accuracy = this.dexterity / 2;
+            this.luck = this.intelligence;
+        }
+
         public void LevelUp()
         {
             if (this.exp >= this.expNext)
@@ -151,13 +192,11 @@ namespace CSharpConsoleRPG.GamePlay
         // Get character stats as string
         public string GetAsString()
         {
-            return $"{xPos} {yPos} {name} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
+            return $"{name} {distanceTraveled} {gold} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
         }
 
         // Properties
         // Accessors
-        public double X => this.xPos;
-        public double Y => this.yPos;
         public int DistanceTraveled => this.distanceTraveled;
         public string Name => this.name;
         public int Level => this.level;
@@ -172,19 +211,8 @@ namespace CSharpConsoleRPG.GamePlay
         public int Accuracy => this.accuracy;
 
         // Modifier (if needed)
-        public void SetDistanceTraveled(int distance)
-        {
-            this.distanceTraveled = distance;
-        }
-        public void Travel()
-        {
-            this.distanceTraveled++;
-        }
-
-        public void GainExp(int exp)
-        {
-            this.exp += exp;
-        }
-
+        public void SetDistanceTraveled(int distance) => this.distanceTraveled = distance;
+        public void Travel() => this.distanceTraveled++;
+        public void GainExp(int exp) => this.exp += exp;
     }
 }

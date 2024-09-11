@@ -16,7 +16,7 @@ namespace CSharpConsoleRPG
             Game game = new Game();
             game.InitGame();
 
-            while (game.Playing)
+            while (game.IsPlaying)
             {
                 game.MainMenu();
             }

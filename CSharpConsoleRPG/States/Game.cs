@@ -30,11 +30,7 @@ namespace CSharpConsoleRPG.States
         //~Game() { }
 
         // Accessors
-        // Property to access the playing status
-        public bool Playing
-        {
-            get { return playing; }
-        }
+        public bool IsPlaying => playing;
 
         // Functions
         public void InitGame()
@@ -154,7 +150,55 @@ namespace CSharpConsoleRPG.States
 
         public void LoadCharacter()
         {
-            
+            characters.Clear();
+
+            string line;
+            string[] data;
+
+            try
+            {
+                using (StreamReader inFile = new StreamReader(fileName))
+                {
+                    while ((line = inFile.ReadLine()) != null)
+                    {
+                        data = line.Split(' ');
+
+                        if (data.Length < 13)
+                        {
+                            Console.WriteLine("Invalid data format in file.");
+                            continue;
+                        }
+
+                        string name = data[0];
+                        int distanceTraveled = int.Parse(data[1]);
+                        int gold = int.Parse(data[2]);
+                        int level = int.Parse(data[3]);
+                        int exp = int.Parse(data[4]);
+                        int strength = int.Parse(data[5]);
+                        int vitality = int.Parse(data[6]);
+                        int dexterity = int.Parse(data[7]);
+                        int intelligence = int.Parse(data[8]);
+                        int hp = int.Parse(data[9]);
+                        int stamina = int.Parse(data[10]);
+                        int statPoints = int.Parse(data[11]);
+                        int skillPoints = int.Parse(data[12]);
+
+                        Character temp = new Character(name, distanceTraveled, gold, level, exp, strength, vitality, dexterity, intelligence, hp, stamina, statPoints, skillPoints);
+                        characters.Add(temp);
+
+                        Console.WriteLine($"Character {name} loaded!");
+                    }
+                }
+
+                if (characters.Count <= 0)
+                {
+                    throw new Exception("ERROR! NO CHARACTER LOADED! OR EMPTY FILE!");
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"Unable to open file: {ex.Message}");
+            }
         }
 
         public void Travel()
