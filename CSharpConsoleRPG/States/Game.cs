@@ -41,6 +41,10 @@ namespace CSharpConsoleRPG.States
         // Main Menu Function
         public void MainMenu()
         {
+            Console.WriteLine("ENTER to continue...");
+            Console.ReadLine();
+            Console.Clear();
+
             if (this.characters[activeCharacter].Exp >= this.characters[activeCharacter].ExpNext)
             {
                 Console.WriteLine("LEVEL UP AVAILABLE!\n");
@@ -58,13 +62,13 @@ namespace CSharpConsoleRPG.States
             Console.WriteLine("8: Load characters\n");
 
             Console.Write("Choice: ");
-            bool isValidInput = int.TryParse(Console.ReadLine(), out choice);
-
-            if (!isValidInput)
+            while (!int.TryParse(Console.ReadLine(), out choice))
             {
-                Console.WriteLine("Invalid input. Please choose from the following choices.\n");
-                return;
+                Console.WriteLine("Faulty input!");
+                Console.Write("Choice: ");
             }
+
+            Console.WriteLine();
 
             switch (choice)
             {
@@ -114,18 +118,12 @@ namespace CSharpConsoleRPG.States
         public void CreateNewCharacter()
         {
             Console.Write("Character name: ");
-            string? name = Console.ReadLine();
+            string name = Console.ReadLine();
 
-            // Ensure the name is not null or empty
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                Console.WriteLine("Invalid input. Name cannot be empty.");
-                return; // Exit the method if the name is invalid
-            }
-
-            characters.Add(new Character());
+            Character newCharacter = new Character();
+            newCharacter.Initialize(name);
+            characters.Add(newCharacter);
             activeCharacter = characters.Count - 1;
-            characters[activeCharacter].Initialize(name);
         }
 
         public void SaveCharacter()
@@ -152,52 +150,41 @@ namespace CSharpConsoleRPG.States
         {
             characters.Clear();
 
-            string line;
-            string[] data;
-
-            try
+            if (File.Exists(fileName))
             {
-                using (StreamReader inFile = new StreamReader(fileName))
+                string[] lines = File.ReadAllLines(fileName);
+
+                foreach (string line in lines)
                 {
-                    while ((line = inFile.ReadLine()) != null)
-                    {
-                        data = line.Split(' ');
+                    string[] data = line.Split(' ');
+                    string name = data[0];
+                    int distanceTraveled = int.Parse(data[1]);
+                    int gold = int.Parse(data[2]);
+                    int level = int.Parse(data[3]);
+                    int exp = int.Parse(data[4]);
+                    int strength = int.Parse(data[5]);
+                    int vitality = int.Parse(data[6]);
+                    int dexterity = int.Parse(data[7]);
+                    int intelligence = int.Parse(data[8]);
+                    int hp = int.Parse(data[9]);
+                    int stamina = int.Parse(data[10]);
+                    int statPoints = int.Parse(data[11]);
+                    int skillPoints = int.Parse(data[12]);
 
-                        if (data.Length < 13)
-                        {
-                            Console.WriteLine("Invalid data format in file.");
-                            continue;
-                        }
+                    Character temp = new Character(name, distanceTraveled, gold, level, exp, strength, vitality, dexterity, intelligence, hp, stamina, statPoints, skillPoints);
+                    characters.Add(temp);
 
-                        string name = data[0];
-                        int distanceTraveled = int.Parse(data[1]);
-                        int gold = int.Parse(data[2]);
-                        int level = int.Parse(data[3]);
-                        int exp = int.Parse(data[4]);
-                        int strength = int.Parse(data[5]);
-                        int vitality = int.Parse(data[6]);
-                        int dexterity = int.Parse(data[7]);
-                        int intelligence = int.Parse(data[8]);
-                        int hp = int.Parse(data[9]);
-                        int stamina = int.Parse(data[10]);
-                        int statPoints = int.Parse(data[11]);
-                        int skillPoints = int.Parse(data[12]);
-
-                        Character temp = new Character(name, distanceTraveled, gold, level, exp, strength, vitality, dexterity, intelligence, hp, stamina, statPoints, skillPoints);
-                        characters.Add(temp);
-
-                        Console.WriteLine($"Character {name} loaded!");
-                    }
+                    Console.WriteLine($"Character {name} loaded!");
                 }
 
-                if (characters.Count <= 0)
+                if (characters.Count == 0)
                 {
                     throw new Exception("ERROR! NO CHARACTER LOADED! OR EMPTY FILE!");
                 }
             }
-            catch (IOException ex)
+            else
             {
-                Console.WriteLine($"Unable to open file: {ex.Message}");
+                Console.WriteLine("Unable to open file!");
             }
         }
 

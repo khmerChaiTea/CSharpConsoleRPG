@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace CSharpConsoleRPG.GamePlay
 {
@@ -56,18 +57,15 @@ namespace CSharpConsoleRPG.GamePlay
 
             while (!completed && chances > 0)
             {
-                Console.WriteLine($"Chances: {chances} \n");
+                Console.WriteLine($"Chances: {chances}\n");
                 chances--;
-
                 Console.WriteLine(puzzle.GetAsString());
 
-                Console.WriteLine("Your Answer: ");
-                bool isValidInput = int.TryParse(Console.ReadLine(), out userAns);
-
-                if (!isValidInput || userAns > 2 || userAns < 0)
+                Console.Write("\nYour Answer: ");
+                while (!int.TryParse(Console.ReadLine(), out userAns))
                 {
-                    Console.WriteLine("Invalid input, please enter one of the choices.");
-                    continue;
+                    Console.WriteLine("Faulty input!");
+                    Console.Write("\nYour Answer: ");
                 }
 
                 if (puzzle.CorrectAnswer == userAns)
