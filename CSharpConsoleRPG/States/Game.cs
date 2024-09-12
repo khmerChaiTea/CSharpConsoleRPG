@@ -36,6 +36,16 @@ namespace CSharpConsoleRPG.States
         public void InitGame()
         {
             CreateNewCharacter();
+
+            List<int> ints = new List<int>(); // C# equivalent of dynamic array
+
+            Random rand = new Random(); // Instantiate a Random object
+
+            for (int i = 0; i < 20; i++)
+            {
+                ints.Add(rand.Next(0, 10)); // Add random number between 0 and 9
+                Console.WriteLine(ints[i]); // Print the number
+            }
         }
 
         // Main Menu Function

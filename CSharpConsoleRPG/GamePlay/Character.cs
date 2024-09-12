@@ -209,18 +209,22 @@ namespace CSharpConsoleRPG.GamePlay
                 {
                     case 0:
                         this.strength += value;
+                        Console.WriteLine("\nSTRENGTH INCREASED!\n");
                         break;
 
                     case 1:
                         this.vitality += value;
+                        Console.WriteLine("\nVITALITY INCREASED!\n");
                         break;
 
                     case 2:
                         this.dexterity += value;
+                        Console.WriteLine("\nDEXTERITY INCREASED!\n");
                         break;
 
                     case 3:
                         this.intelligence += value;
+                        Console.WriteLine("\nINTELLIGENCE INCREASED!\n");
                         break;
 
                     default:
