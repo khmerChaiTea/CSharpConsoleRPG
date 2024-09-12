@@ -16,36 +16,30 @@ namespace CSharpConsoleRPG.States
         private List<Character> characters;
         private string fileName;
 
+        // Enemies
+        private List<Enemy> enemies;
+
         // Constructor
         public Game()
         {
-            choice = 0;
-            playing = true;
-            activeCharacter = 0;
-            fileName = "characters.txt";
-            characters = new List<Character>();
+            this.choice = 0;
+            this.playing = true;
+            this.activeCharacter = 0;
+            this.fileName = "characters.txt";
+            this.characters = new List<Character>();
+            this.enemies = new List<Enemy>();
         }
 
         // Destructor (Not necessary in C#, handled by garbage collection)
         //~Game() { }
 
         // Accessors
-        public bool IsPlaying => playing;
+        public bool IsPlaying => this.playing;
 
         // Functions
         public void InitGame()
         {
             CreateNewCharacter();
-
-            List<int> ints = new List<int>(); // C# equivalent of dynamic array
-
-            Random rand = new Random(); // Instantiate a Random object
-
-            for (int i = 0; i < 20; i++)
-            {
-                ints.Add(rand.Next(0, 10)); // Add random number between 0 and 9
-                Console.WriteLine(ints[i]); // Print the number
-            }
         }
 
         // Main Menu Function
@@ -61,6 +55,9 @@ namespace CSharpConsoleRPG.States
             }
 
             Console.WriteLine("= Main Menu =\n");
+
+            Console.WriteLine($"= Active character: {this.characters[activeCharacter].Name}, Nr: {this.activeCharacter + 1}/{this.characters.Count} =\n");
+
             Console.WriteLine("0: Quit");
             Console.WriteLine("1: Travel");
             Console.WriteLine("2: Shop");
@@ -70,6 +67,7 @@ namespace CSharpConsoleRPG.States
             Console.WriteLine("6: Create new character");
             Console.WriteLine("7: Save characters");
             Console.WriteLine("8: Load characters\n");
+            Console.WriteLine("9: Select character");
 
             Console.Write("Choice: ");
             while (!int.TryParse(Console.ReadLine(), out choice))
@@ -108,6 +106,7 @@ namespace CSharpConsoleRPG.States
 
                 case 6: // Create character
                     CreateNewCharacter();
+                    SaveCharacter();
                     break;
 
                 case 7: // Save character
@@ -118,6 +117,10 @@ namespace CSharpConsoleRPG.States
                     LoadCharacter();
                     break;
 
+                case 9:
+                    SelectCharacter();
+                    break;
+
                 default:
                     Console.WriteLine("Invalid input. Please choose from the following choices.\n");
                     break;
@@ -126,8 +129,16 @@ namespace CSharpConsoleRPG.States
 
         public void CreateNewCharacter()
         {
+            string name = "";
             Console.Write("Character name: ");
-            string name = Console.ReadLine();
+            name = Console.ReadLine();
+
+            while (characters.Exists(c => c.Name == name))
+            {
+                Console.WriteLine("Error! Character already exists!");
+                Console.Write("Character name: ");
+                name = Console.ReadLine();
+            }
 
             Character newCharacter = new Character();
             newCharacter.Initialize(name);
@@ -141,49 +152,34 @@ namespace CSharpConsoleRPG.States
 
             if (characters[activeCharacter].StatPoints > 0)
             {
-                Console.WriteLine("You have stat points to allocate!\n\n");
+                Console.WriteLine("You have stat points to allocate!\n");
                 Console.WriteLine("Stat to upgrade:");
                 Console.WriteLine("0: Strength");
                 Console.WriteLine("1: Vitality");
                 Console.WriteLine("2: Dexterity");
                 Console.WriteLine("3: Intelligence");
 
-                // Input validation loop
-                bool validInput = false;
-                while (!validInput)
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 3)
                 {
-                    Console.Write("Enter choice (0-3): ");
-                    string input = Console.ReadLine();
-                    if (int.TryParse(input, out choice) && choice >= 0 && choice <= 3)
-                    {
-                        validInput = true; // Valid input, break out of loop
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input! Please enter a number between 0 and 3.");
-                    }
+                    Console.WriteLine("Faulty input!");
+                    Console.Write("Stat to upgrade: ");
                 }
 
-                switch (choice)
+                switch (this.choice)
                 {
-                    case 0: // Strength
+                    case 0:
                         characters[activeCharacter].AddToStat(0, 1);
                         break;
-
-                    case 1: // Vitality
+                    case 1:
                         characters[activeCharacter].AddToStat(1, 1);
                         break;
-
-                    case 2: // Dexterity
+                    case 2:
                         characters[activeCharacter].AddToStat(2, 1);
                         break;
-
-                    case 3: // Intelligence
+                    case 3:
                         characters[activeCharacter].AddToStat(3, 1);
                         break;
-
                     default:
-                        // This should never happen since input is validated
                         break;
                 }
             }
@@ -251,12 +247,30 @@ namespace CSharpConsoleRPG.States
             }
         }
 
+        public void SelectCharacter()
+        {
+            Console.WriteLine("Select character:\n");
+            for (int i = 0; i < characters.Count; i++)
+            {
+                Console.WriteLine($"Index: {i} = {characters[i].Name}, Level: {characters[i].Level}");
+            }
+
+            while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice >= characters.Count)
+            {
+                Console.WriteLine("Faulty input!");
+                Console.Write("Select character: ");
+            }
+
+            activeCharacter = choice;
+            Console.WriteLine($"{characters[activeCharacter].Name} is SELECTED!\n");
+        }
+
         public void Travel()
         {
             characters[activeCharacter].Travel();
 
             Event ev = new Event();
-            ev.GenerateEvent(this.characters[activeCharacter]);
+            ev.GenerateEvent(characters[activeCharacter], enemies);
         }
     }
 }

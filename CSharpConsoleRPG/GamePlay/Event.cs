@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace CSharpConsoleRPG.GamePlay
 {
@@ -15,16 +16,16 @@ namespace CSharpConsoleRPG.GamePlay
         // Destructor (not needed)
 
         // Generate a random event for the character
-        public void GenerateEvent(Character character)
+        public void GenerateEvent(Character character, List<Enemy> enemies)
         {
-            Random random = new Random();
-            int i = random.Next(this.nrOfEvents);
+            Random rand = new Random();
+            int i = rand.Next(0, this.nrOfEvents);
 
             switch (i)
             {
                 case 0:
                     // Enemy encounter
-                    EnemyEncounter(character);
+                    EnemyEncounter(character, enemies);
                     break;
 
                 case 1:
@@ -37,10 +38,18 @@ namespace CSharpConsoleRPG.GamePlay
             }
         }
 
-        // Enemy encounter event (to be implemented)
-        public void EnemyEncounter(Character character)
+        // Events
+        public void EnemyEncounter(Character character, List<Enemy> enemies)
         {
-            // TODO: Implement enemy encounter logic
+            bool escape = false;
+            bool playerDefeated = false;
+            bool enemyDefeated = false;
+
+            // Implement the logic for enemy encounter here
+            while (!escape && !playerDefeated && !enemyDefeated)
+            {
+                // Placeholder for enemy encounter logic
+            }
         }
 
         // Puzzle encounter event
