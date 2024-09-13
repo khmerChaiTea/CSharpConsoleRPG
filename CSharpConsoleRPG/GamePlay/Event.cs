@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace CSharpConsoleRPG.GamePlay
@@ -39,16 +38,99 @@ namespace CSharpConsoleRPG.GamePlay
         }
 
         // Events
-        public void EnemyEncounter(Character character, List<Enemy> enemies)
+        private void EnemyEncounter(Character character, List<Enemy> enemies)
         {
+            Random rand = new Random();
+            bool playerTurn = false;
+
+            // Coin toss for turn
+            playerTurn = rand.Next(2) == 0;
+
             bool escape = false;
             bool playerDefeated = false;
-            bool enemyDefeated = false;
+            bool enemiesDefeated = false;
 
-            // Implement the logic for enemy encounter here
-            while (!escape && !playerDefeated && !enemyDefeated)
+            int nrOfEnemies = rand.Next(5);
+
+            for (int i = 0; i < nrOfEnemies; i++)
             {
-                // Placeholder for enemy encounter logic
+                enemies.Add(new Enemy(character.Level));
+            }
+
+            while (!escape && !playerDefeated && !enemiesDefeated)
+            {
+                if (playerTurn && !playerDefeated)
+                {
+                    // Menu
+                    Console.Clear();
+                    Console.WriteLine("= Battle Menu =\n");
+                    Console.WriteLine("0: Escape");
+                    Console.WriteLine("1: Attack");
+                    Console.WriteLine("2: Defend");
+                    Console.WriteLine("3: Use Item\n");
+
+                    Console.Write("Choice: ");
+                    int choice;
+                    while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 3)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Faulty input!\n");
+                        Console.WriteLine("= Battle Menu =\n");
+                        Console.WriteLine("0: Escape");
+                        Console.WriteLine("1: Attack");
+                        Console.WriteLine("2: Defend");
+                        Console.WriteLine("3: Use Item\n");
+                        Console.Write("Choice: ");
+                    }
+
+                    // Handle choice
+                    switch (choice)
+                    {
+                        case 0:
+                            escape = true;
+                            break;
+
+                        case 1:
+                            // Attack logic
+                            break;
+
+                        case 2:
+                            // Defend logic
+                            break;
+
+                        case 3:
+                            // Use item logic
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    // End turn
+                    playerTurn = false;
+                }
+                else if (!playerTurn && !escape && !enemiesDefeated)
+                {
+                    // Enemy attack logic
+                    foreach (var enemy in enemies)
+                    {
+                        // Handle enemy actions
+                    }
+
+                    // End turn
+                    playerTurn = true;
+                }
+
+                // Check conditions
+                if (!character.IsAlive)
+                {
+                    playerDefeated = true;
+                }
+
+                if (enemies.Count == 0)
+                {
+                    enemiesDefeated = true;
+                }
             }
         }
 

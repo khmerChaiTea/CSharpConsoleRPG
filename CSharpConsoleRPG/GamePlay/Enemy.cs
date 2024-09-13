@@ -20,9 +20,10 @@ namespace CSharpConsoleRPG.GamePlay
             this.hp = this.hpmax;
             this.damageMin = this.level * 4;
             this.damageMax = this.level * 5;
-            this.dropChance = new Random().Next(0, 100);
-            this.defense = new Random().Next(0, 100);
-            this.accuracy = new Random().Next(0, 100);
+            Random rand = new Random();
+            this.dropChance = rand.Next(100);
+            this.defense = rand.Next(100);
+            this.accuracy = rand.Next(100);
         }
 
         public bool IsAlive()
@@ -43,6 +44,11 @@ namespace CSharpConsoleRPG.GamePlay
         public void TakeDamage(int damage)
         {
             this.hp -= damage;
+
+            if (this.hp < 0)
+            {
+                this.hp = 0;
+            }
         }
 
         public int GetDamage()

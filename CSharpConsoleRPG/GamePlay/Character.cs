@@ -236,6 +236,16 @@ namespace CSharpConsoleRPG.GamePlay
             }
         }
 
+        public void TakeDamage(int damage)
+        {
+            this.hp -= damage;
+
+            if (this.hp < 0)
+            {
+                this.hp = 0;
+            }
+        }
+
         // Properties
         // Accessors
         public int DistanceTraveled => this.distanceTraveled;
@@ -246,6 +256,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int StatPoints => this.statPoints;
         public int Hp => this.hp;
         public int HpMax => this.hpMax;
+        public bool IsAlive => hp > 0;
         public int Stamina => this.stamina;
         public int DamageMin => this.damageMin;
         public int DamageMax => this.damageMax;

@@ -65,9 +65,12 @@ namespace CSharpConsoleRPG.States
             Console.WriteLine("4: Rest");
             Console.WriteLine("5: Character sheet");
             Console.WriteLine("6: Create new character");
-            Console.WriteLine("7: Save characters");
-            Console.WriteLine("8: Load characters\n");
-            Console.WriteLine("9: Select character");
+            Console.WriteLine("7: Select character");
+            Console.WriteLine("8: Save characters");
+            Console.WriteLine("9: Load characters");
+
+
+            Console.WriteLine();
 
             Console.Write("Choice: ");
             while (!int.TryParse(Console.ReadLine(), out choice))
@@ -109,17 +112,20 @@ namespace CSharpConsoleRPG.States
                     SaveCharacter();
                     break;
 
-                case 7: // Save character
-                    SaveCharacter();
+                case 7:
+                    SelectCharacter();
                     break;
 
-                case 8: // Load character
+                case 8: // Save character
+                    SaveCharacter();
+                    Console.WriteLine("Character saved successfully.");
+                    break;
+
+                case 9: // Load character
                     LoadCharacter();
                     break;
 
-                case 9:
-                    SelectCharacter();
-                    break;
+
 
                 default:
                     Console.WriteLine("Invalid input. Please choose from the following choices.\n");
@@ -196,8 +202,6 @@ namespace CSharpConsoleRPG.States
                         outFile.WriteLine(character.GetAsString());
                     }
                 }
-
-                Console.WriteLine("Character saved successfully.");
             }
             catch (Exception ex)
             {
@@ -207,6 +211,8 @@ namespace CSharpConsoleRPG.States
 
         public void LoadCharacter()
         {
+            SaveCharacter();
+
             characters.Clear();
 
             if (File.Exists(fileName))
