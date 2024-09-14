@@ -45,7 +45,7 @@ namespace CSharpConsoleRPG.GamePlay
 
             this.gold = 0;
 
-            this.name = string.Empty;
+            this.name = "";
             this.level = 0;
             this.exp = 0;
             this.expNext = 0;
@@ -105,7 +105,6 @@ namespace CSharpConsoleRPG.GamePlay
         public void Initialize(string name)
         {
             this.distanceTraveled = 0;
-
             this.gold = 100;
 
             this.name = name;
@@ -244,6 +243,12 @@ namespace CSharpConsoleRPG.GamePlay
             {
                 this.hp = 0;
             }
+        }
+
+        public int GetDamage()
+        {
+            Random rand = new Random();
+            return rand.Next(this.damageMin, this.damageMax);
         }
 
         // Properties
