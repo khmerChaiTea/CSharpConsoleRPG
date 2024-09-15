@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace CSharpConsoleRPG.GamePlay
 {
@@ -42,9 +43,7 @@ namespace CSharpConsoleRPG.GamePlay
         public Character()
         {
             this.distanceTraveled = 0;
-
             this.gold = 0;
-
             this.name = "";
             this.level = 0;
             this.exp = 0;
@@ -106,29 +105,19 @@ namespace CSharpConsoleRPG.GamePlay
         {
             this.distanceTraveled = 0;
             this.gold = 100;
-
             this.name = name;
             this.level = 1;
             this.exp = 0;
-            this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
 
             this.strength = 5;
             this.vitality = 5;
             this.dexterity = 5;
             this.intelligence = 5;
 
-            this.hpMax = (this.vitality * 2) + (this.strength / 2);
-            this.hp = this.hpMax;
-            this.staminaMax = (this.vitality) + (this.strength / 2) + (this.dexterity / 3);
-            this.stamina = this.staminaMax;
-            this.damageMin = this.strength;
-            this.damageMax = this.strength + 2;
-            this.defense = this.dexterity + (this.intelligence / 2);
-            this.accuracy = this.dexterity / 2;
-            this.luck = this.intelligence;
-
             this.statPoints = 0;
             this.skillPoints = 0;
+
+            this.UpdateStats();
         }
 
         public void PrintStats()
@@ -188,11 +177,13 @@ namespace CSharpConsoleRPG.GamePlay
                 + 17 * level - 12)) + 100;
 
             this.hpMax = (this.vitality * 2) + (this.strength / 2);
+            this.hp = this.hpMax;
             this.staminaMax = (this.vitality) + (this.strength / 2) + (this.dexterity / 3);
+            this.stamina = this.staminaMax;
             this.damageMin = this.strength;
             this.damageMax = this.strength + 2;
             this.defense = this.dexterity + (this.intelligence / 2);
-            this.accuracy = this.dexterity / 2;
+            this.accuracy = (this.dexterity / 2) + this.intelligence;
             this.luck = this.intelligence;
         }
 
@@ -245,12 +236,6 @@ namespace CSharpConsoleRPG.GamePlay
             }
         }
 
-        public int GetDamage()
-        {
-            Random rand = new Random();
-            return rand.Next(this.damageMin, this.damageMax);
-        }
-
         // Properties
         // Accessors
         public int DistanceTraveled => this.distanceTraveled;
@@ -265,6 +250,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int Stamina => this.stamina;
         public int DamageMin => this.damageMin;
         public int DamageMax => this.damageMax;
+        public int Damage => new Random().Next(damageMin, damageMax);
         public int Defense => this.defense;
         public int Accuracy => this.accuracy;
 

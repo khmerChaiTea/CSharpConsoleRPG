@@ -44,7 +44,7 @@ namespace CSharpConsoleRPG.GamePlay
             int choice = 0;
 
             // Coin toss for turn
-            int coinToss = rand.Next(1, 3);
+            int coinToss = rand.Next(1,3);
 
             playerTurn = coinToss == 1;
 
@@ -54,32 +54,48 @@ namespace CSharpConsoleRPG.GamePlay
             bool enemiesDefeated = false;
 
             // Enemies
-            int nrOfEnemies = rand.Next(1, 6);
+            int nrOfEnemies = rand.Next(1,6);
+
             for (int i = 0; i < nrOfEnemies; i++)
             {
-                enemies.Add(new Enemy(character.Level));
+                enemies.Add(new Enemy(character.Level + rand.Next(1,4)));
             }
 
             // Battle variables
-            int attackRoll = 0;
-            int defendRoll = 0;
             int damage = 0;
             int gainExp = 0;
+            int playerTotal = 0;
+            int enemyTotal = 0;
+            int combatTotal = 0;
+            int combatRollPlayer = 0;
+            int combatRollEnemy = 0;
 
             while (!escape && !playerDefeated && !enemiesDefeated)
             {
                 if (playerTurn && !playerDefeated)
                 {
-                    // Menu
+                    // Battle menu
                     Console.WriteLine("= Battle Menu =\n");
                     Console.WriteLine("0: Escape");
                     Console.WriteLine("1: Attack");
                     Console.WriteLine("2: Defend");
                     Console.WriteLine("3: Use Item");
-                    Console.WriteLine();
-                    Console.Write("Choice: ");
+                    Console.WriteLine("\nChoice: ");
 
-                    choice = GetValidInput(0, 3);
+                    string input = Console.ReadLine();
+
+                    // Validating user input
+                    while (!int.TryParse(input, out choice) || choice < 0 || choice > 3)
+                    {
+                        Console.WriteLine("Invalid input!");
+                        Console.WriteLine("= Battle Menu =\n");
+                        Console.WriteLine("0: Escape");
+                        Console.WriteLine("1: Attack");
+                        Console.WriteLine("2: Defend");
+                        Console.WriteLine("3: Use Item");
+                        Console.WriteLine("\nChoice: ");
+                        input = Console.ReadLine();
+                    }
 
                     // Moves
                     switch (choice)
@@ -87,24 +103,39 @@ namespace CSharpConsoleRPG.GamePlay
                         case 0: // Escape
                             escape = true;
                             break;
+
                         case 1: // Attack
-                                // Select Enemy
+                                // Select enemy
                             Console.WriteLine("Select enemy:\n");
                             for (int i = 0; i < enemies.Count; i++)
                             {
-                                Console.WriteLine($"{i}: Level: {enemies[i].GetLevel()} - Hp: {enemies[i].GetHp()} / {enemies[i].GetHpMax()}");
+                                Console.WriteLine($"{i}: Level: {enemies[i].GetLevel()} - Hp: {enemies[i].GetHp()}/{enemies[i].GetHpMax()} - Defense: {enemies[i].GetDefense()} - Accuracy: {enemies[i].GetAccuracy()}\n");
                             }
-                            Console.WriteLine();
-                            Console.Write("Choice: ");
 
-                            choice = GetValidInput(0, enemies.Count - 1);
+                            Console.WriteLine("Choice: ");
+                            choice = int.Parse(Console.ReadLine());
 
-                            attackRoll = rand.Next(1, 101);
-                            if (attackRoll > 50) // Hit
+                            while (choice < 0 || choice >= enemies.Count)
+                            {
+                                Console.WriteLine("Invalid input!\n");
+                                Console.WriteLine("Choice: ");
+                                choice = int.Parse(Console.ReadLine());
+                            }
+
+                            // Attack roll
+                            combatTotal = enemies[choice].GetDefense() + character.Accuracy;
+                            enemyTotal = (int)(enemies[choice].GetDefense()/ (double)combatTotal * 100);
+                            playerTotal = (int)(character.Accuracy / (double)combatTotal * 100);
+                            combatRollPlayer = rand.Next(playerTotal) + 1;
+                            combatRollEnemy = rand.Next(enemyTotal) + 1;
+
+                            Console.WriteLine($"Player roll: {combatRollPlayer}\n");
+                            Console.WriteLine($"Enemy roll: {combatRollEnemy}\n");
+
+                            if (combatRollPlayer > combatRollEnemy) // Hit
                             {
                                 Console.WriteLine("HIT!\n");
-
-                                damage = character.GetDamage();
+                                damage = character.Damage;
                                 enemies[choice].TakeDamage(damage);
                                 Console.WriteLine($"Damage: {damage}!\n");
 
@@ -117,17 +148,21 @@ namespace CSharpConsoleRPG.GamePlay
                                     enemies.RemoveAt(choice);
                                 }
                             }
-                            else // Miss
+                            else
                             {
                                 Console.WriteLine("MISSED!\n");
                             }
+
                             break;
+
                         case 2: // Defend
-                                // Implement defend logic here
+                                // Defend logic
                             break;
-                        case 3: // Item
-                                // Implement item usage here
+
+                        case 3: // Use Item
+                                // Item logic
                             break;
+
                         default:
                             break;
                     }
@@ -137,17 +172,17 @@ namespace CSharpConsoleRPG.GamePlay
                 }
                 else if (!playerTurn && !escape && !enemiesDefeated)
                 {
-                    // Enemy attack (can be expanded to include enemy attack logic)
-                    for (int i = 0; i < enemies.Count; i++)
+                    // Enemy attack
+                    foreach (var enemy in enemies)
                     {
-                        // Implement enemy attack logic here
+                        // Enemy attack logic here
                     }
 
                     // End turn
                     playerTurn = true;
                 }
 
-                // Conditions
+                // Check conditions
                 if (!character.IsAlive)
                 {
                     playerDefeated = true;
