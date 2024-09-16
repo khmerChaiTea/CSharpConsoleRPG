@@ -37,7 +37,6 @@ namespace CSharpConsoleRPG.GamePlay
         private int luck;
 
         private int statPoints;
-        private int skillPoints;
 
         // Constructor
         public Character()
@@ -74,12 +73,11 @@ namespace CSharpConsoleRPG.GamePlay
             this.luck = 0;
 
             this.statPoints = 0;
-            this.skillPoints = 0;
         }
 
         public Character(string name, int distanceTraveled, int gold, int level, int exp, int strength,
                      int vitality, int dexterity, int intelligence, int hp, int stamina,
-                     int statPoints, int skillPoints)
+                     int statPoints)
         {
             this.distanceTraveled = distanceTraveled;
 
@@ -113,7 +111,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.luck = 0;
 
             this.statPoints = statPoints;
-            this.skillPoints = skillPoints;
 
             this.UpdateStats();
         }
@@ -133,7 +130,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.intelligence = 5;
 
             this.statPoints = 0;
-            this.skillPoints = 0;
 
             this.UpdateStats();
         }
@@ -172,7 +168,7 @@ namespace CSharpConsoleRPG.GamePlay
         // Get character stats as string
         public string GetAsString()
         {
-            return $"{name} {distanceTraveled} {gold} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints} {skillPoints}";
+            return $"{name} {distanceTraveled} {gold} {level} {exp} {strength} {vitality} {dexterity} {intelligence} {hp} {stamina} {statPoints}";
         }
 
         public void LevelUp()
@@ -184,7 +180,6 @@ namespace CSharpConsoleRPG.GamePlay
                 this.expNext = (int)((50.0 / 3.0) * ((Math.Pow(level, 3) - 6 * Math.Pow(level, 2)) + 17 * level - 12)) + 100;
 
                 this.statPoints++;
-                this.skillPoints++;
 
                 this.UpdateStats();
 

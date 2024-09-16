@@ -234,9 +234,8 @@ namespace CSharpConsoleRPG.States
                     int hp = int.Parse(data[9]);
                     int stamina = int.Parse(data[10]);
                     int statPoints = int.Parse(data[11]);
-                    int skillPoints = int.Parse(data[12]);
 
-                    Character temp = new Character(name, distanceTraveled, gold, level, exp, strength, vitality, dexterity, intelligence, hp, stamina, statPoints, skillPoints);
+                    Character temp = new Character(name, distanceTraveled, gold, level, exp, strength, vitality, dexterity, intelligence, hp, stamina, statPoints);
                     characters.Add(temp);
 
                     Console.WriteLine($"Character {name} loaded!");
