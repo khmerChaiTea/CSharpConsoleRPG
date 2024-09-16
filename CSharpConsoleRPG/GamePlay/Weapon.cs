@@ -24,8 +24,21 @@ namespace CSharpConsoleRPG.GamePlay
         // Override ToString method to return string representation of Weapon
         public override string ToString()
         {
-            return $"{this.damageMin} - {this.damageMax}";
+            return $"Weapon: {this.GetName()}, Min Damage: {this.damageMin}, Max Damage: {this.damageMax}, Level: {this.GetLevel()}, Rarity: {this.GetRarity()}";
         }
+
+        // Accessors
+        public int DamageMin
+        {
+            get { return this.damageMin; }
+        }
+
+        public int DamageMax
+        {
+            get { return this.damageMax; }
+        }
+
+        // Modifiers (can be added if needed)
     }
 
 }

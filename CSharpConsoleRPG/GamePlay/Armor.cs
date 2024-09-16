@@ -2,6 +2,7 @@
 
 namespace CSharpConsoleRPG.GamePlay
 {
+    public enum ArmorType { HEAD = 0, CHEST, ARMS, LEGS }
     public class Armor : Item
     {
         private int type;
@@ -24,7 +25,20 @@ namespace CSharpConsoleRPG.GamePlay
         // Override ToString method to return string representation of Armor
         public override string ToString()
         {
-            return $"{this.type} {this.defense}";
+            return $"Armor: {this.GetName()}, Type: {this.type}, Defense: {this.defense}, Level: {this.GetLevel()}, Rarity: {this.GetRarity()}";
         }
+
+        // Accessors
+        public int Defense
+        {
+            get { return this.defense; }
+        }
+
+        public int Type
+        {
+            get { return this.type; }
+        }
+
+        // Modifiers (can be added if needed)
     }
 }

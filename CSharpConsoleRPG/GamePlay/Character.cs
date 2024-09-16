@@ -43,6 +43,15 @@ namespace CSharpConsoleRPG.GamePlay
         public Character()
         {
             this.distanceTraveled = 0;
+
+            // Initialize objects
+            this.weapon = new Weapon();        // Assuming Weapon has a default constructor
+            this.armorHead = new Armor();     // Assuming Armor has a default constructor
+            this.armorChest = new Armor();    // Assuming Armor has a default constructor
+            this.armorArms = new Armor();     // Assuming Armor has a default constructor
+            this.armorLegs = new Armor();     // Assuming Armor has a default constructor
+            this.inventory = new Inventory();  // Assuming Inventory has a default constructor
+
             this.gold = 0;
             this.name = "";
             this.level = 0;
@@ -73,6 +82,15 @@ namespace CSharpConsoleRPG.GamePlay
                      int statPoints, int skillPoints)
         {
             this.distanceTraveled = distanceTraveled;
+
+            // Initialize objects
+            this.weapon = new Weapon();        // Assuming Weapon has a default constructor
+            this.armorHead = new Armor();     // Assuming Armor has a default constructor
+            this.armorChest = new Armor();    // Assuming Armor has a default constructor
+            this.armorArms = new Armor();     // Assuming Armor has a default constructor
+            this.armorLegs = new Armor();     // Assuming Armor has a default constructor
+            this.inventory = new Inventory();  // Assuming Inventory has a default constructor
+
             this.gold = gold;
             this.name = name;
             this.level = level;
@@ -128,6 +146,7 @@ namespace CSharpConsoleRPG.GamePlay
             Console.WriteLine($"= Level: {this.level}");
             Console.WriteLine($"= Exp: {this.exp}");
             Console.WriteLine($"= Exp to next level: {this.expNext}");
+            Console.WriteLine("= Stat points: " + this.statPoints);
             Console.WriteLine();
             Console.WriteLine($"= Strength: {this.strength}");
             Console.WriteLine($"= Vitality: {this.vitality}");
@@ -140,6 +159,14 @@ namespace CSharpConsoleRPG.GamePlay
             Console.WriteLine($"= Defence: {this.defense}");
             Console.WriteLine($"= Luck: {this.luck}");
             Console.WriteLine();
+            Console.WriteLine($"= Distance Traveled: {this.distanceTraveled}");
+            Console.WriteLine($"= Gold: {this.gold}");
+            Console.WriteLine();
+            Console.WriteLine("\n= Weapon: " + this.weapon.GetName() + " Lvl: " + this.weapon.GetLevel() + " Dam: " + this.weapon.DamageMin + " - " + this.weapon.DamageMax);
+            Console.WriteLine("= Armor Head: " + this.armorHead.GetName() + " Lvl: " + this.armorHead.GetLevel() + " Def: " + this.armorHead.Defense);
+            Console.WriteLine("= Armor Chest: " + this.armorChest.GetName() + " Lvl: " + this.armorChest.GetLevel() + " Def: " + this.armorChest.Defense);
+            Console.WriteLine("= Armor Arms: " + this.armorArms.GetName() + " Lvl: " + this.armorArms.GetLevel() + " Def: " + this.armorArms.Defense);
+            Console.WriteLine("= Armor Legs: " + this.armorLegs.GetName() + " Lvl: " + this.armorLegs.GetLevel() + " Def: " + this.armorLegs.Defense);
         }
 
         // Get character stats as string
