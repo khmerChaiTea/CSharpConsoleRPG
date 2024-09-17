@@ -185,6 +185,8 @@ namespace CSharpConsoleRPG.GamePlay
 
                 this.UpdateStats();
 
+                this.hp = hpMax;
+
                 Console.WriteLine($"YOU ARE NOW LEVEL {this.level}!\n");
             }
             else

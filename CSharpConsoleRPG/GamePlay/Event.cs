@@ -68,8 +68,14 @@ namespace CSharpConsoleRPG.GamePlay
             {
                 if (playerTurn && !playerDefeated)
                 {
+                    Console.WriteLine("= PLAYER TURN =\n");
+                    Console.WriteLine("Continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+
                     // Battle menu
                     Console.WriteLine("= Battle Menu =");
+                    Console.WriteLine($"HP: {character.Hp} / {character.HpMax}\n");
                     Console.WriteLine("\n\n0: Escape\n1: Attack\n2: Defend\n3: Use Item\n\nChoice: ");
                     string input = Console.ReadLine();
 
@@ -163,6 +169,9 @@ namespace CSharpConsoleRPG.GamePlay
                 else if (!playerTurn && !escape && !enemiesDefeated)
                 {
                     Console.WriteLine("= ENEMY TURN =");
+                    Console.WriteLine("Continue...");
+                    Console.ReadKey();
+                    Console.Clear();
 
                     // Enemy attack
                     foreach (var enemy in enemies)
@@ -180,7 +189,8 @@ namespace CSharpConsoleRPG.GamePlay
                             Console.WriteLine("Enemy hit you!\n");
                             damage = enemy.GetDamage();
                             character.TakeDamage(damage);
-                            Console.WriteLine($"You took {damage} damage!\n");
+                            Console.WriteLine($"You took {damage} damage!");
+                            Console.WriteLine($"HP: {character.Hp} / {character.HpMax}\n");
 
                             if (!character.IsAlive)
                             {
