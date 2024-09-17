@@ -1,0 +1,6 @@
+Question
+Nr Of Ans
+Ans1
+Ans2
+AnsN
+Correct Ans

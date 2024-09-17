@@ -49,87 +49,100 @@ namespace CSharpConsoleRPG.States
             Console.ReadLine();
             Console.Clear();
 
-            if (this.characters[activeCharacter].Exp >= this.characters[activeCharacter].ExpNext)
+            if (this.characters[activeCharacter].IsAlive)
             {
-                Console.WriteLine("LEVEL UP AVAILABLE!\n");
-            }
+                if (this.characters[activeCharacter].Exp >= this.characters[activeCharacter].ExpNext)
+                {
+                    Console.WriteLine("LEVEL UP AVAILABLE!\n");
+                }
 
-            Console.WriteLine("= Main Menu =\n");
+                Console.WriteLine("= Main Menu =\n");
 
-            Console.WriteLine($"= Active character: {this.characters[activeCharacter].Name}, Nr: {this.activeCharacter + 1}/{this.characters.Count} =\n");
+                Console.WriteLine($"= Active character: {this.characters[activeCharacter].Name}, Nr: {this.activeCharacter + 1}/{this.characters.Count} =\n");
 
-            Console.WriteLine("0: Quit");
-            Console.WriteLine("1: Travel");
-            Console.WriteLine("2: Shop");
-            Console.WriteLine("3: Level up");
-            Console.WriteLine("4: Rest");
-            Console.WriteLine("5: Character sheet");
-            Console.WriteLine("6: Create new character");
-            Console.WriteLine("7: Select character");
-            Console.WriteLine("8: Save characters");
-            Console.WriteLine("9: Load characters");
+                Console.WriteLine("0: Quit");
+                Console.WriteLine("1: Travel");
+                Console.WriteLine("2: Shop");
+                Console.WriteLine("3: Level up");
+                Console.WriteLine("4: Rest");
+                Console.WriteLine("5: Character sheet");
+                Console.WriteLine("6: Create new character");
+                Console.WriteLine("7: Select character");
+                Console.WriteLine("8: Save characters");
+                Console.WriteLine("9: Load characters");
 
 
-            Console.WriteLine();
+                Console.WriteLine();
 
-            Console.Write("Choice: ");
-            while (!int.TryParse(Console.ReadLine(), out choice))
-            {
-                Console.WriteLine("Faulty input!");
                 Console.Write("Choice: ");
+                while (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Faulty input!");
+                    Console.Write("Choice: ");
+                }
+
+                Console.WriteLine();
+
+                switch (choice)
+                {
+                    case 0: // Quit
+                        playing = false;
+                        break;
+
+                    case 1: // Travel
+                        Travel();
+                        break;
+
+                    case 2: // Shop
+                            // Shop logic
+                        break;
+
+                    case 3: // Level Up
+                        LevelUpCharacter();
+                        break;
+
+                    case 4: // Rest
+                            // Rest logic
+                        break;
+
+                    case 5: // Character sheet
+                        characters[activeCharacter].PrintStats();
+                        break;
+
+                    case 6: // Create character
+                        CreateNewCharacter();
+                        SaveCharacter();
+                        break;
+
+                    case 7:
+                        SelectCharacter();
+                        break;
+
+                    case 8: // Save character
+                        SaveCharacter();
+                        Console.WriteLine("Character saved successfully.");
+                        break;
+
+                    case 9: // Load character
+                        LoadCharacter();
+                        break;
+
+
+
+                    default:
+                        Console.WriteLine("Invalid input. Please choose from the following choices.\n");
+                        break;
+                }
             }
-
-            Console.WriteLine();
-
-            switch (choice)
+            else
             {
-                case 0: // Quit
-                    playing = false;
-                    break;
+                Console.WriteLine("YOU ARE DEAD, LOAD? (0) Yes, (1) No");
+                choice = int.Parse(Console.ReadLine());
 
-                case 1: // Travel
-                    Travel();
-                    break;
-
-                case 2: // Shop
-                        // Shop logic
-                    break;
-
-                case 3: // Level Up
-                    LevelUpCharacter();
-                    break;
-
-                case 4: // Rest
-                        // Rest logic
-                    break;
-
-                case 5: // Character sheet
-                    characters[activeCharacter].PrintStats();
-                    break;
-
-                case 6: // Create character
-                    CreateNewCharacter();
-                    SaveCharacter();
-                    break;
-
-                case 7:
-                    SelectCharacter();
-                    break;
-
-                case 8: // Save character
-                    SaveCharacter();
-                    Console.WriteLine("Character saved successfully.");
-                    break;
-
-                case 9: // Load character
+                if (choice == 0)
                     LoadCharacter();
-                    break;
-
-
-
-                default:
-                    Console.WriteLine("Invalid input. Please choose from the following choices.\n");
-                    break;
+                else
+                    playing = false;
             }
         }
 
@@ -211,8 +224,6 @@ namespace CSharpConsoleRPG.States
 
         public void LoadCharacter()
         {
-            SaveCharacter();
-
             characters.Clear();
 
             if (File.Exists(fileName))

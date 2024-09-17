@@ -122,7 +122,7 @@ namespace CSharpConsoleRPG.GamePlay
             this.gold = 100;
             this.name = name;
             this.level = 1;
-            this.exp = 0;
+            this.exp = 10000;
 
             this.strength = 5;
             this.vitality = 5;
@@ -132,6 +132,8 @@ namespace CSharpConsoleRPG.GamePlay
             this.statPoints = 0;
 
             this.UpdateStats();
+
+            this.hp = this.hpMax;
         }
 
         public void PrintStats()
@@ -198,8 +200,7 @@ namespace CSharpConsoleRPG.GamePlay
                 - 6 * Math.Pow(level, 2))
                 + 17 * level - 12)) + 100;
 
-            this.hpMax = (this.vitality * 2) + (this.strength / 2);
-            this.hp = this.hpMax;
+            this.hpMax = (this.vitality * 2) + (this.strength / 2) + this.level * 5;
             this.staminaMax = (this.vitality) + (this.strength / 2) + (this.dexterity / 3);
             this.stamina = this.staminaMax;
             this.damageMin = this.strength;
@@ -245,6 +246,7 @@ namespace CSharpConsoleRPG.GamePlay
                 }
 
                 this.statPoints -= value;
+                this.UpdateStats();
             }
         }
 
@@ -272,7 +274,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int Stamina => this.stamina;
         public int DamageMin => this.damageMin;
         public int DamageMax => this.damageMax;
-        public int Damage => new Random().Next(damageMin, damageMax);
+        public int Damage => new Random().Next(damageMin, damageMax + 1);
         public int Defense => this.defense;
         public int Accuracy => this.accuracy;
 

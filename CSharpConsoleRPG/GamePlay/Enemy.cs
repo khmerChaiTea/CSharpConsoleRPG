@@ -18,8 +18,8 @@ namespace CSharpConsoleRPG.GamePlay
             this.level = level;
             this.hpMax = level * 10;
             this.hp = this.hpMax;
-            this.damageMin = this.level * 4;
-            this.damageMax = this.level * 5;
+            this.damageMin = this.level * 1;
+            this.damageMax = this.level * 3;
             Random rand = new Random();
             this.dropChance = rand.Next(1, 101);
             this.defense = rand.Next(1, level * 5 + 1);
@@ -59,7 +59,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int GetDamage()
         {
             Random rand = new Random();
-            return rand.Next(damageMin, damageMax);
+            return rand.Next(damageMin, damageMax + 1);
         }
 
         public int GetExp()
