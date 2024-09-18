@@ -284,5 +284,7 @@ namespace CSharpConsoleRPG.GamePlay
         public void SetDistanceTraveled(int distance) => this.distanceTraveled = distance;
         public void Travel() => this.distanceTraveled++;
         public void GainExp(int exp) => this.exp += exp;
+
+        public void GainGold(int gold) => this.gold += gold;
     }
 }

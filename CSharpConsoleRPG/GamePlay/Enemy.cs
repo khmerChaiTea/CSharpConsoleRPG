@@ -19,11 +19,11 @@ namespace CSharpConsoleRPG.GamePlay
             this.hpMax = level * 10;
             this.hp = this.hpMax;
             this.damageMin = this.level * 1;
-            this.damageMax = this.level * 3;
+            this.damageMax = this.level * 2;
             Random rand = new Random();
             this.dropChance = rand.Next(1, 101);
-            this.defense = rand.Next(1, level * 4 + 1);
-            this.accuracy = rand.Next(1, level * 4 + 1);
+            this.defense = rand.Next(1, level * 3 + 1);
+            this.accuracy = rand.Next(1, level * 3 + 1);
         }
 
         public bool IsAlive()
@@ -54,6 +54,16 @@ namespace CSharpConsoleRPG.GamePlay
         public int GetLevel()
         {
             return this.level;
+        }
+
+        public int GetDamageMin()
+        {
+            return this.damageMin;
+        }
+
+        public int GetDamageMax()
+        {
+            return this.damageMax;
         }
 
         public int GetDamage()

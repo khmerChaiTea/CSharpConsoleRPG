@@ -39,7 +39,19 @@ namespace CSharpConsoleRPG.States
         // Functions
         public void InitGame()
         {
-            CreateNewCharacter();
+            // Open the file using StreamReader
+            using (StreamReader inFile = new StreamReader("characters.txt"))
+            {
+                if (inFile != null && !inFile.EndOfStream)
+                {
+                    LoadCharacter();
+                }
+                else
+                {
+                    CreateNewCharacter();
+                    SaveCharacter();
+                }
+            }
         }
 
         // Main Menu Function
@@ -87,6 +99,7 @@ namespace CSharpConsoleRPG.States
                 {
                     case 0: // Quit
                         playing = false;
+                        SaveCharacter();
                         break;
 
                     case 1: // Travel

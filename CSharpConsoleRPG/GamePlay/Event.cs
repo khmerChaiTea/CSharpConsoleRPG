@@ -58,6 +58,7 @@ namespace CSharpConsoleRPG.GamePlay
             // Battle variables
             int damage = 0;
             int gainExp = 0;
+            int gainGold = 0;
             int playerTotal = 0;
             int enemyTotal = 0;
             int combatTotal = 0;
@@ -106,7 +107,7 @@ namespace CSharpConsoleRPG.GamePlay
                             Console.WriteLine("Select enemy:\n");
                             for (int i = 0; i < enemies.Count; i++)
                             {
-                                Console.WriteLine($"{i}: Level: {enemies[i].GetLevel()} - Hp: {enemies[i].GetHp()}/{enemies[i].GetHpMax()} - Defense: {enemies[i].GetDefense()} - Accuracy: {enemies[i].GetAccuracy()}\n");
+                                Console.WriteLine($"{i}: Level: {enemies[i].GetLevel()} - Hp: {enemies[i].GetHp()}/{enemies[i].GetHpMax()} - Defense: {enemies[i].GetDefense()} - Accuracy: {enemies[i].GetAccuracy()} - Damage: {enemies[i].GetDamageMin()} - {enemies[i].GetDamageMax()}\n");
                             }
 
                             Console.Write("Choice: ");
@@ -140,7 +141,10 @@ namespace CSharpConsoleRPG.GamePlay
                                     Console.WriteLine("ENEMY DEFEATED!\n");
                                     gainExp = enemies[choice].GetExp();
                                     character.GainExp(gainExp);
-                                    Console.WriteLine($"EXP GAINED: {gainExp}\n");
+                                    gainGold = rand.Next(enemies[choice].GetLevel() * 10) + 1;
+                                    character.GainGold(gainGold);
+                                    Console.WriteLine($"EXP GAINED: {gainExp}");
+                                    Console.WriteLine($"GOLD GAINED: {gainGold}\n");
                                     enemies.RemoveAt(choice);
                                 }
                             }
@@ -229,6 +233,7 @@ namespace CSharpConsoleRPG.GamePlay
             int userAns = 0;
             int chances = 3;
             int gainExp = chances * character.Level * rand.Next(1, 11);
+            int gainGold = chances * character.Level * rand.Next(1, 11);
 
             // Load a puzzle from file
             Puzzle puzzle = new Puzzle("Puzzles/1.txt");
@@ -252,7 +257,9 @@ namespace CSharpConsoleRPG.GamePlay
 
                     // Give user experience points or rewards
                     character.GainExp(gainExp);
-                    Console.WriteLine($"YOU GAIN {gainExp} EXP!\n");
+                    character.GainGold(gainGold);
+                    Console.WriteLine($"YOU GAIN {gainExp} EXP!");
+                    Console.WriteLine($"YOU GAIN {gainGold} GOLD!\n");
                 }
                 else
                 {
