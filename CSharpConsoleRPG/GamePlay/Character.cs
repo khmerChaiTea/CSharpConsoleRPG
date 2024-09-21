@@ -122,7 +122,7 @@ namespace CSharpConsoleRPG.GamePlay
             this.gold = 100;
             this.name = name;
             this.level = 1;
-            this.exp = 10000;
+            this.exp = 0;
 
             this.strength = 5;
             this.vitality = 5;
@@ -132,8 +132,6 @@ namespace CSharpConsoleRPG.GamePlay
             this.statPoints = 0;
 
             this.UpdateStats();
-
-            this.hp = this.hpMax;
         }
 
         public void PrintStats()
@@ -165,6 +163,7 @@ namespace CSharpConsoleRPG.GamePlay
             Console.WriteLine("= Armor Chest: " + this.armorChest.GetName() + " Lvl: " + this.armorChest.GetLevel() + " Def: " + this.armorChest.Defense);
             Console.WriteLine("= Armor Arms: " + this.armorArms.GetName() + " Lvl: " + this.armorArms.GetLevel() + " Def: " + this.armorArms.Defense);
             Console.WriteLine("= Armor Legs: " + this.armorLegs.GetName() + " Lvl: " + this.armorLegs.GetLevel() + " Def: " + this.armorLegs.Defense);
+            Console.WriteLine();
         }
 
         // Get character stats as string
@@ -184,8 +183,6 @@ namespace CSharpConsoleRPG.GamePlay
                 this.statPoints++;
 
                 this.UpdateStats();
-
-                this.hp = hpMax;
 
                 Console.WriteLine($"YOU ARE NOW LEVEL {this.level}!\n");
             }
@@ -210,6 +207,8 @@ namespace CSharpConsoleRPG.GamePlay
             this.defense = this.dexterity + (this.intelligence / 2);
             this.accuracy = (this.dexterity / 2) + this.intelligence;
             this.luck = this.intelligence;
+
+            this.hp = hpMax;
         }
 
         public void AddToStat(int stat, int value)
@@ -252,6 +251,11 @@ namespace CSharpConsoleRPG.GamePlay
             }
         }
 
+        public void ResetHP()
+        {
+            this.hp = this.hpMax;
+        }
+
         public void TakeDamage(int damage)
         {
             this.hp -= damage;
@@ -279,6 +283,7 @@ namespace CSharpConsoleRPG.GamePlay
         public int Damage => new Random().Next(damageMin, damageMax + 1);
         public int Defense => this.defense;
         public int Accuracy => this.accuracy;
+        public int Gold => this.gold;
 
         // Modifier (if needed)
         public void SetDistanceTraveled(int distance) => this.distanceTraveled = distance;
@@ -286,5 +291,6 @@ namespace CSharpConsoleRPG.GamePlay
         public void GainExp(int exp) => this.exp += exp;
 
         public void GainGold(int gold) => this.gold += gold;
+        public void PayGold(int gold) => this.gold -= gold;
     }
 }

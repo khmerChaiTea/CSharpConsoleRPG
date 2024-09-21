@@ -115,7 +115,7 @@ namespace CSharpConsoleRPG.States
                         break;
 
                     case 4: // Rest
-                            // Rest logic
+                        Rest();
                         break;
 
                     case 5: // Character sheet
@@ -300,6 +300,52 @@ namespace CSharpConsoleRPG.States
 
             Event ev = new Event();
             ev.GenerateEvent(characters[activeCharacter], enemies);
+        }
+
+        public void Rest()
+        {
+            int restCost = this.characters[this.activeCharacter].HpMax -
+                           this.characters[this.activeCharacter].Hp;
+
+            Console.WriteLine("= Rest =\n");
+            Console.WriteLine("Resting costs you: " + restCost);
+            Console.WriteLine("Your gold: " + this.characters[this.activeCharacter].Gold);
+            Console.WriteLine("HP: " + this.characters[this.activeCharacter].Hp +
+                              " / " + this.characters[this.activeCharacter].HpMax + "\n");
+
+            if (this.characters[this.activeCharacter].Gold < restCost)
+            {
+                Console.WriteLine("NOT ENOUGH MONEY, SORRY BUDDY!\n");
+            }
+            else if (this.characters[this.activeCharacter].Hp >= this.characters[this.activeCharacter].HpMax)
+            {
+                Console.WriteLine("ALREADY AT FULL HEALTH BUDDY!\n");
+            }
+            else
+            {
+                Console.WriteLine("Rest? (0) Yes, (1) No...");
+
+                // Parse the input for choice
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 1)
+                {
+                    Console.WriteLine("Faulty input!");
+                    Console.WriteLine("Rest? (0) Yes, (1) No...");
+                }
+
+                Console.WriteLine();
+
+                if (choice == 0)
+                {
+                    this.characters[this.activeCharacter].ResetHP();
+                    this.characters[this.activeCharacter].PayGold(restCost);
+                    Console.WriteLine("RESTED!");
+                }
+                else
+                {
+                    Console.WriteLine("MAYBE NEXT TIME!");
+                }
+            }
         }
     }
 }
